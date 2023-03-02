@@ -37,7 +37,11 @@ app.get('/movies', function(req, res)
     {
         let query1 = "SELECT * FROM Movies";
         db.query(query1, function(error, rows, fields){
+            if (error){
+                console.log(error);
+            } else {
             res.render('movies', {data: rows});
+            }
         })
         });
 
