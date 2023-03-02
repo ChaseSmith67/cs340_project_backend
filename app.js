@@ -13,6 +13,9 @@ const PORT = 4367;                 // Set a port number at the top so it's easy 
 
 app.engine('.hbs', engine({extname: ".hbs"}));
 app.set('view engine', '.hbs');
+// app.use(express.json())
+// app.use(express.urlencoded({extended: true}))
+// app.use(express.static('public'))
 
 
 /*
