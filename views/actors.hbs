@@ -36,7 +36,7 @@
             <td>{{this.birthday}}</td>
             <td>
                 <button id="edit-actor">Edit</button>
-                <button id="delete-actor" onclick="deleteActor({{this.actor_id}})">Delete</button>
+                <button id="delete-actor" onclick="javascript:deleteActor({{this.actor_id}})">Delete</button>
                 
             </td>
         </tr>
@@ -45,7 +45,7 @@
     </tbody>
 </table>
 
-<script type="text/javascript" src="/public/js/delete_actor.js"></script>
+<script src="./js/delete_actor.js"></script>
 
 
 
