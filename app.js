@@ -11,8 +11,11 @@ const app = express();            // We need to instantiate an express object to
 const PORT = 4367;                 // Set a port number at the top so it's easy to change in the future
 
 
+// Setup Handlebars 
 app.engine('.hbs', engine({extname: ".hbs"}));
 app.set('view engine', '.hbs');
+
+// Setup Express to read data
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
