@@ -1,7 +1,9 @@
-import mysql from "mysql"
+// import mysql from "mysql"
+
+const mysql = require('mysql');
 
 // Create a 'connection pool' using the provided credentials
-var db = mysql.createPool({
+var pool = mysql.createPool({
     connectionLimit : 10,
     host            : 'classmysql.engr.oregonstate.edu',
     user            : 'cs340_smitcha6',
@@ -10,4 +12,4 @@ var db = mysql.createPool({
 })
 
 // Export it for use in our application
-export default db;
+module.exports.pool = pool;
