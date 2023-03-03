@@ -1,4 +1,6 @@
-import mysql from "mysql"
+// import mysql from "mysql"
+
+const mysql = require('mysql');
 
 // Create a 'connection pool' using the provided credentials
 var pool = mysql.createPool({
@@ -10,4 +12,4 @@ var pool = mysql.createPool({
 })
 
 // Export it for use in our application
-export default db;
+module.exports.pool = pool;

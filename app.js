@@ -2,9 +2,9 @@
     SETUP
 */
 // Express
-import express from "express";
-import db from "./db-connector.js";
-import { engine, ExpressHandlebars } from "express-handlebars";
+// import express from "express";
+// import db from "./db-connector.js";
+// import { engine, ExpressHandlebars } from "express-handlebars";
 
 const express = require('express');
 const db = require('./db-connector.js');
@@ -119,7 +119,7 @@ app.get('/age_ratings', function(req, res)
 // View Users Table
 app.get('/users', function(req, res)
 {
-    let query1 = "SELECT * FROM Users";
+    let query1 = "SELECT user_id, user_email, user_phone FROM Users";
     db.pool.query(query1, function(error, rows, fields){
         res.render('users', {data: rows});
     })
