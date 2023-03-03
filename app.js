@@ -163,7 +163,7 @@ app.put('/put-person-ajax', function(req,res,next){
     let birthDate = parseInt(data.birthDate);
     let actor = parseInt(data.fullname);
   
-    queryUpdateActor = `UPDATE Actors SET actor_birth_date = ? WHERE Actors.id = ?`;
+    queryUpdateActor = `UPDATE Actors SET actor_birth_date = ? WHERE Actors.actor_id = ?`;
     //selectActor = `SELECT * FROM actor_birth_date WHERE id = ?`
   
           // Run the 1st query
