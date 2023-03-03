@@ -7,10 +7,9 @@
 
             <label for="movies">Movie</label>
             <select name="movies">
-                <option value="1">John Wick</option>
-                <option value="2">A Scanner Darkly</option>
-                <option value="3">Zombieland</option>
-                <option value="4">Shrek</option>
+                {{#each movie}}
+                <option value="{{this.id}}">{{this.title}}</option>
+                {{/each}}
             </select>
         </fieldset>
     </form>
@@ -20,10 +19,9 @@
             <legend>Select Mood to Add or Remove</legend>
             <label for="mood">Moods</label>
             <select name="mood">
-                <option value="1">Funny</option>
-                <option value="2">Dark</option>
-                <option value="3">Chill</option>
-                <option value="4">Sad</option>
+                {{#each mood}}
+                <option value="{{this.mood_id}}">{{this.mood_name}}</option>
+                {{/each}}
             </select>
             <input type="button" value="Add">
             <input type="button" value="Remove">
@@ -35,11 +33,9 @@
             <legend>Select Genre to Add or Remove</legend>
             <label for="genre">Genres</label>
             <select name="genre">
-                <option value="1">Comedy</option>
-                <option value="2">Science Fiction</option>
-                <option value="3">Thriller</option>
-                <option value="4">Romance</option>
-                <option value="5">Horror</option>
+                {{#each genre}}
+                <option value="{{this.genre_id}}">{{this.genre_name}}</option>
+                {{/each}}
             </select>
         
             <input type="button" value="Add">
@@ -52,9 +48,9 @@
             <legend>Select Actor to Add or Remove</legend>
             <label for="actor">Actors</label>
             <select name="genre">
-                <option value="1">Keanu Reeves</option>
-                <option value="2">Woody Harrelson</option>
-                <option value="3">Mike Myers</option>
+                {{#each actor}}
+                <option value="{{this.actor_id}}">{{this.fullName}}</option>
+                {{/each}}
             </select>
         
             <input type="button" value="Add">

@@ -96,7 +96,23 @@ app.get('/moods', function(req, res)
 // View Edit Movies Page
 app.get('/edit_movies', function(req, res)
 {
-    res.render('edit_movies');
+    let query1 = "SELECT movie_id AS id, movie_title AS title FROM Movies";
+    db.query(query1, function(error, movie, fields){
+
+        let query2 = "SELECT * FROM Moods";
+        db.query(query2, function(error, mood, fields){
+
+            let query3 = "SELECT * FROM Genres";
+            db.query(query3, function(error, genre, fields){
+
+                let query4 = "SELECT actor_id, CONCAT(first_name, ' ', last_name) AS fullName FROM Actors";
+                db.query(query4, function(error, actor, fields){
+
+                    res.render('edit_movies', {movie: movie, mood: mood, genre: genre, actor: actor});
+                })
+            })
+        })
+    })
 });
 
 //=====UPDATE=====
