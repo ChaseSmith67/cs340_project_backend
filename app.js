@@ -2,9 +2,13 @@
     SETUP
 */
 // Express
-import express from "express";
-import db from "./db-connector.js";
-import { engine, ExpressHandlebars } from "express-handlebars";
+//import express from "express";
+//import db from "./db-connector.js";
+//import { engine, ExpressHandlebars } from "express-handlebars";
+const express = require('express');
+const db = require('./db-connector.js');
+const { engine } = require('express-handlebars');
+const path = require('path');
 
 
 const app = express();            // We need to instantiate an express object to interact with the server in our code
@@ -18,7 +22,7 @@ app.set('view engine', '.hbs');
 // Setup Express to read data
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'))
 
 
 /*
@@ -116,7 +120,40 @@ app.get('/edit_movies', function(req, res)
 });
 
 //=====UPDATE=====
-
+app.put('/put-person-ajax', function(req,res,next){                                   
+    let data = req.body;
+  
+    let birthDate = parseInt(data.birthDate);
+    let actor = parseInt(data.fullname);
+  
+    queryUpdateActor = `UPDATE Actors SET actor_birth_date = ? WHERE Actors.id = ?`;
+    //selectActor = `SELECT * FROM actor_birth_date WHERE id = ?`
+  
+          // Run the 1st query
+          db.pool.query(queryUpdateActor, [birthDate, actor], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run our second query and return that data so we can use it to update the people's
+              // table on the front-end
+              else
+              {
+                  // Run the second query
+                  db.pool.query(selectActor, [birthDate], function(error, rows, fields) {
+          
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.send(rows);
+                      }
+                  })
+              }
+  })});
 
 //=====DELETE=====
 
