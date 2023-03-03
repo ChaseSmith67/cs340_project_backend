@@ -27,6 +27,43 @@ app.use(express.static('public'))
 
 //=====CREATE=====
 
+app.post('/add-actor-form', function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db
+    let first_name = data['input-fname'];
+    let last_name = data['input-lname'];
+    let birthdate = new Date(data['input-birthdate']);
+    let birthday = birthdate.toISOString(birthdate).slice(0, 10);
+
+    console.log(String(birthday));
+    
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO Actors (first_name, last_name, actor_birth_date) VALUES ('${first_name}', '${last_name}', DATE(${birthday}))`;
+    db.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Actors and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/actors');
+        }
+    })
+
+})
 
 //=====READ=====
 // Home Page
