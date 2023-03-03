@@ -38,5 +38,24 @@
             </td>
         </tr>
         {{/each}}
+
     </tbody>
 </table>
+
+
+        <br>
+
+        <h2>Add a new actor to the database</h2>
+        <p>To add a new actor, please enter their information below and click `Submit`!</p>
+        <form id="add-person-form" method="POST" action="/add-person-form">
+            <label for="input-fname">First Name: </label>
+            <input type="text" name="input-fname" id="input-fname">
+            
+            <label for="input-lname">Last Name: </label>
+            <input type="text" name="input-lname" id="input-lname">
+
+            <label for="input-age">Birthdate: </label>
+            <input type="date" name="input-birthdate" id="input-birth-date">
+
+            <input type="submit">
+        </form>
