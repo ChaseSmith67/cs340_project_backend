@@ -93,6 +93,12 @@ app.get('/moods', function(req, res)
     })
     });
 
+// View Edit Movies Page
+app.get('/edit_movies', function(req, res)
+{
+    res.render('edit_movies');
+});
+
 //=====UPDATE=====
 
 

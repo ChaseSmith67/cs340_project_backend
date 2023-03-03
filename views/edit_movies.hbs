@@ -1,0 +1,64 @@
+    <h1>Edit Movies Page</h1>
+    <p>Use this page to add or remove existing actors, moods, or genres from movies already in the database.</p>
+    
+    <form id="edit-movies-form" method="POST" action="/select-movie">
+        <fieldset>
+            <legend>Select Movie to Edit</legend>
+
+            <label for="movies">Movie</label>
+            <select name="movies">
+                <option value="1">John Wick</option>
+                <option value="2">A Scanner Darkly</option>
+                <option value="3">Zombieland</option>
+                <option value="4">Shrek</option>
+            </select>
+        </fieldset>
+    </form>
+    <br>
+    <form id="edit-movies-mood" method="POST" action="/edit-movies-mood">
+        <fieldset>
+            <legend>Select Mood to Add or Remove</legend>
+            <label for="mood">Moods</label>
+            <select name="mood">
+                <option value="1">Funny</option>
+                <option value="2">Dark</option>
+                <option value="3">Chill</option>
+                <option value="4">Sad</option>
+            </select>
+            <input type="button" value="Add">
+            <input type="button" value="Remove">
+        </fieldset>
+    </form>
+    <br>
+    <form id="edit-movies-genre" method="POST" action="/edit-movies-genre">
+        <fieldset>
+            <legend>Select Genre to Add or Remove</legend>
+            <label for="genre">Genres</label>
+            <select name="genre">
+                <option value="1">Comedy</option>
+                <option value="2">Science Fiction</option>
+                <option value="3">Thriller</option>
+                <option value="4">Romance</option>
+                <option value="5">Horror</option>
+            </select>
+        
+            <input type="button" value="Add">
+            <input type="button" value="Remove">
+        </fieldset>
+    </form>
+    <br>
+    <form id="edit-movies-actor" method="POST" action="/edit-movies-actor">
+        <fieldset>
+            <legend>Select Actor to Add or Remove</legend>
+            <label for="actor">Actors</label>
+            <select name="genre">
+                <option value="1">Keanu Reeves</option>
+                <option value="2">Woody Harrelson</option>
+                <option value="3">Mike Myers</option>
+            </select>
+        
+            <input type="button" value="Add">
+            <input type="button" value="Remove">
+
+        </fieldset>
+    </form>
