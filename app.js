@@ -206,15 +206,10 @@ app.post('/add-movie-form', function(req, res){
     let movie_title = data['input-title'];
     let movie_year = data['input-year'];    
     let age_rating = data['input-age-rating'];
-
-    // Validate Age Rating input
-    if (age_rating == 'invalid') {
-        res.send('<script>alert("Age rating is required.")</script>');
-        res.redirect('/movies');
-    } else {
     
         // Create the query and run it on the database
-        const query1 = `INSERT INTO Users (user_email, user_phone) VALUES ('${user_email}', '${user_phone}')`;
+        const query1 = `INSERT INTO Movies (movie_title, movie_year, age_rating_id) VALUES ('${movie_title}', '${movie_year}',
+                        (SELECT age_rating_id FROM AgeRatings WHERE age_rating_description = '${age_rating}'))`;
         db.pool.query(query1, function(error, rows, fields){
 
             // Check to see if there was an error
@@ -229,10 +224,9 @@ app.post('/add-movie-form', function(req, res){
             // presents it on the screen
             else
             {
-                res.redirect('/users');
+                res.redirect('/movies');
             }
         })
-    }
 })
 
 //=====READ=====

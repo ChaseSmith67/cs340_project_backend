@@ -53,7 +53,6 @@
 
     <label for="input-age-rating">Age Rating: </label>
     <select name="input-age-rating" id="input-age-rating">
-        <option value="invalid">Select an Age Rating</option>
         {{#each age_ratings}}
         <option value="{{this.age_rating_description}}">{{this.age_rating_description}}</option>
         {{/each}}
