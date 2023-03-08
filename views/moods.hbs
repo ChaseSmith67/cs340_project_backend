@@ -24,7 +24,7 @@
     {{!-- Body section --}}
     <tbody>
 
-        {{!-- For each row, print the id, first name, last name, and birthdate, in order --}}
+        {{!-- For each row, print the id and name in order --}}
         {{#each data}}
 
         <tr>
@@ -38,3 +38,16 @@
         {{/each}}
     </tbody>
 </table>
+
+<br>
+
+<h2>Add a new mood to the database</h2>
+
+<p>To add a new mood, please enter the name below and click `Submit`!</p>
+
+<form id="/add-mood-form" method="POST" action="/add-mood-form">
+    <label for="input-mood">Mood Name: </label>
+    <input type="text" name="input-mood" id="input-mood">
+
+    <input type="submit">
+</form>

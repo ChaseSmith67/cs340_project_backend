@@ -133,6 +133,38 @@ app.post('/add-age-rating-form', function(req, res){
 
 })
 
+app.post('/add-mood-form', function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let mood = data['input-mood'];   
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO Moods (mood_name) VALUES ('${mood}');`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Genres and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/moods');
+        }
+    })
+
+})
+
 //=====READ=====
 // Home Page
 app.get('/', function(req, res)
