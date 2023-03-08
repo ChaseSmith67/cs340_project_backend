@@ -357,6 +357,31 @@ app.get('/user_movies', function(req, res) {
         })
 });
 
+// View a User's Movie History
+app.post('/movie-history', function(req, res) {
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let user_id = data['search-user-id'];
+
+    let queryMovieHistory = `SELECT Movies.movie_title FROM Movies 
+                             INNER JOIN UserMovies ON Movies.movie_id = UserMovies.movie_id 
+                             INNER JOIN Users ON UserMovies.user_id = Users.user_id 
+                             WHERE Users.user_id = ?;`;
+
+    db.pool.query(queryMovieHistory, [user_id], function(error, rows, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.render('movie_history', {data: rows, user: user_id});
+            }
+    })
+});
 
 //=====UPDATE=====
 app.put('/put-person-ajax', function(req,res,next){                                   

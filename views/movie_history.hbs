@@ -1,9 +1,5 @@
-<h1>UserMovies</h1>
-<p>
-    This page displays the UserMovies intersection table. No direct editing of this table is allowed, but
-    it is available to view in order to help track down any potential issues. All changes to User/Movie 
-    relationships should be done through the Movie History page.
-</p>
+<h1>This is the Movie History page for User {{this.user}}</h1>
+<p>All movies watched by the user are listed below.</p>
 
 {{!-- The Data from our Database --}}
 
@@ -21,20 +17,22 @@
                 {{@key}}
             </th>
             {{/each}}
+            <th>Modify</th>
         </tr>
     </thead>
 
     {{!-- Body section --}}
     <tbody>
 
-        {{!-- For each row, print the id, first name, last name, and birthdate, in order --}}
+        {{!-- For each row, print the id, title, year, and age rating in order --}}
         {{#each data}}
-
         <tr>
-            <td>{{this.movie_id}}</td>
-            <td>{{this.user_id}}</td>
+            <td>{{this.movie_title}}</td>
+            <td>
+                <button>Edit</button>
+                <button>Delete</button>
+            </td>
         </tr>
         {{/each}}
     </tbody>
 </table>
-

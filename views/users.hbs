@@ -42,6 +42,23 @@
 
 <br>
 
+<h2>View/Edit a User's Movie History</h2>
+
+<p>Select a user below and click `Submit` to view or edit their Movie History</p>
+
+<form id="/movie-history-form" method="POST" action="/movie-history">
+    <label for="search-user-id">User ID: </label>
+    <select name="search-user-id" id="search-user-id">
+        {{#each data}}
+    <option value="{{this.user_id}}">{{this.user_id}}</option>
+        {{/each}}
+    </select>
+    
+    <input type="submit">
+</form>
+
+<br>
+
 <h2>Add a new user to the database</h2>
 
 <p>To add a new user, please enter the information below and click `Submit`!</p>
