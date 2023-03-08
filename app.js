@@ -1,10 +1,8 @@
 /*
     SETUP
 */
+
 // Express
-// import express from "express";
-// import db from "./db-connector.js";
-// import { engine, ExpressHandlebars } from "express-handlebars";
 
 const express = require('express');
 const db = require('./db-connector.js');
@@ -12,7 +10,6 @@ const { engine } = require('express-handlebars');
 const app = express();            // We need to instantiate an express object to interact with the server in our code
 const PORT = 4367;                 // Set a port number at the top so it's easy to change in the future
 const path = require('path');
-
 
 
 // Setup Handlebars 
@@ -31,6 +28,7 @@ app.use(express.static('public'))
 
 //=====CREATE=====
 
+// Add a new actor
 app.post('/add-actor-form', function(req, res){
 
     // Capture incoming data and parse it into JS Object
@@ -45,7 +43,6 @@ app.post('/add-actor-form', function(req, res){
     let birthday = birthdate.toISOString(birthdate).slice(0, 10);
 
     console.log(String(birthday));
-    
     
     // Create the query and run it on the database
     const query1 = `INSERT INTO Actors (first_name, last_name, actor_birth_date) VALUES ('${first_name}', '${last_name}', DATE(${birthday}))`;
@@ -66,9 +63,9 @@ app.post('/add-actor-form', function(req, res){
             res.redirect('/actors');
         }
     })
-
 })
 
+// Add a new genre
 app.post('/add-genre-form', function(req, res){
 
     // Capture incoming data and parse it into JS Object
@@ -98,9 +95,9 @@ app.post('/add-genre-form', function(req, res){
             res.redirect('/genres');
         }
     })
-
 })
 
+// Add a new age rating
 app.post('/add-age-rating-form', function(req, res){
 
     // Capture incoming data and parse it into JS Object
@@ -130,9 +127,9 @@ app.post('/add-age-rating-form', function(req, res){
             res.redirect('/age_ratings');
         }
     })
-
 })
 
+// Add a new mood
 app.post('/add-mood-form', function(req, res){
 
     // Capture incoming data and parse it into JS Object
@@ -162,19 +159,50 @@ app.post('/add-mood-form', function(req, res){
             res.redirect('/moods');
         }
     })
+})
 
+// Add a new user
+app.post('/add-user-form', function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let user_email = data['input-email'];
+    let user_phone = data['input-phone'];    
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO Users (user_email, user_phone) VALUES ('${user_email}', '${user_phone}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Actors and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/users');
+        }
+    })
 })
 
 //=====READ=====
+
 // Home Page
-app.get('/', function(req, res)
-    {
+app.get('/', function(req, res) {
         res.render('home');
-        });
+    });
 
 // View Movies Table
-app.get('/movies', function(req, res)
-    {
+app.get('/movies', function(req, res) {
         let query1 = "SELECT * FROM Movies";
         db.pool.query(query1, function(error, rows, fields){
             if (error){
@@ -183,56 +211,55 @@ app.get('/movies', function(req, res)
             res.render('movies', {data: rows});
             }
         })
-        });
+    });
 
 // View Actors Table
-app.get('/actors', function(req, res)
-    {
+app.get('/actors', function(req, res) {
         let query1 = "SELECT actor_id, first_name, last_name, DATE_FORMAT(actor_birth_date, '%M' ' ' '%D' ' ' '%Y') AS birthday FROM Actors";
+
         db.pool.query(query1, function(error, rows, fields){
             res.render('actors', {data: rows});
         })
-        });
+    });
 
 // View Genres Table
-app.get('/genres', function(req, res)
-{
+app.get('/genres', function(req, res) {
     let query1 = "SELECT * FROM Genres";
+
     db.pool.query(query1, function(error, rows, fields){
         res.render('genres', {data: rows});
-    })
+        })
     });
 
 // View Age Ratings Table
-app.get('/age_ratings', function(req, res)
-{
+app.get('/age_ratings', function(req, res) {
     let query1 = "SELECT * FROM AgeRatings";
+
     db.pool.query(query1, function(error, rows, fields){
         res.render('age_ratings', {data: rows});
-    })
+        })
     });
 
 // View Users Table
-app.get('/users', function(req, res)
-{
+app.get('/users', function(req, res) {
     let query1 = "SELECT user_id, user_email, user_phone FROM Users";
+
     db.pool.query(query1, function(error, rows, fields){
         res.render('users', {data: rows});
-    })
+        })
     });
 
 // View Moods Table
-app.get('/moods', function(req, res)
-{
+app.get('/moods', function(req, res) {
     let query1 = "SELECT * FROM Moods";
+
     db.pool.query(query1, function(error, rows, fields){
         res.render('moods', {data: rows});
-    })
+        })
     });
 
 // View Edit Movies Page
-app.get('/edit_movies', function(req, res)
-{
+app.get('/edit_movies', function(req, res) {
     let query1 = "SELECT movie_id AS id, movie_title AS title FROM Movies";
     db.pool.query(query1, function(error, movie, fields){
 
@@ -318,7 +345,8 @@ app.delete('/delete-actor-ajax/', function(req,res,next){
                       }
                   })
               }
-  })});
+  })
+});
 
 /*
     LISTENER
