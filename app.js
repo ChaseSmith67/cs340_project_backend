@@ -194,6 +194,47 @@ app.post('/add-user-form', function(req, res){
     })
 })
 
+// Add a new movie
+app.post('/add-movie-form', function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let movie_title = data['input-title'];
+    let movie_year = data['input-year'];    
+    let age_rating = data['input-age-rating'];
+
+    // Validate Age Rating input
+    if (age_rating == 'invalid') {
+        res.send('<script>alert("Age rating is required.")</script>');
+        res.redirect('/movies');
+    } else {
+    
+        // Create the query and run it on the database
+        const query1 = `INSERT INTO Users (user_email, user_phone) VALUES ('${user_email}', '${user_phone}')`;
+        db.pool.query(query1, function(error, rows, fields){
+
+            // Check to see if there was an error
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+
+            // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Actors and
+            // presents it on the screen
+            else
+            {
+                res.redirect('/users');
+            }
+        })
+    }
+})
+
 //=====READ=====
 
 // Home Page
@@ -208,7 +249,14 @@ app.get('/movies', function(req, res) {
             if (error){
                 console.log(error);
             } else {
-            res.render('movies', {data: rows});
+
+                // Get Age Rating data for dropdown menu
+                let query2 = "SELECT * FROM AgeRatings";
+                db.pool.query(query2, function(error, age_ratings, fields){
+
+                    res.render('movies', {data: rows, age_ratings: age_ratings});
+
+                })
             }
         })
     });

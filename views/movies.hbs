@@ -39,3 +39,25 @@
         {{/each}}
     </tbody>
 </table>
+
+<br>
+
+<h2>Add a new movie to the database</h2>
+<p>To add a new movie, please enter the information below and click `Submit`!</p>
+<form id="add-movie-form" method="POST" action="/add-movie-form">
+    <label for="input-title">Movie Title: </label>
+    <input type="text" name="input-title" id="input-title">
+
+    <label for="input-year">Year: </label>
+    <input type="number" name="input-year" id="input-year" min="1900" max="2030">
+
+    <label for="input-age-rating">Age Rating: </label>
+    <select name="input-age-rating" id="input-age-rating">
+        <option value="invalid">Select an Age Rating</option>
+        {{#each age_ratings}}
+        <option value="{{this.age_rating_description}}">{{this.age_rating_description}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
