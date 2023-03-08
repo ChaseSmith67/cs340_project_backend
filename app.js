@@ -348,6 +348,15 @@ app.get('/movie_genres', function(req, res) {
         })
 });
 
+// View UserMovies Intersection Table
+app.get('/user_movies', function(req, res) {
+    let query1 = "SELECT * FROM UserMovies";
+
+    db.pool.query(query1, function(error, rows, fields){
+        res.render('user_movies', {data: rows});
+        })
+});
+
 
 //=====UPDATE=====
 app.put('/put-person-ajax', function(req,res,next){                                   
