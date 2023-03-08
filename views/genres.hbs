@@ -24,7 +24,7 @@
     {{!-- Body section --}}
     <tbody>
 
-        {{!-- For each row, print the id, first name, last name, and birthdate, in order --}}
+        {{!-- For each row, print the id and genre name --}}
         {{#each data}}
 
         <tr>
@@ -38,3 +38,14 @@
         {{/each}}
     </tbody>
 </table>
+
+<br>
+
+<h2>Add a new genre to the database</h2>
+<p>To add a new genre, please enter the name below and click `Submit`!</p>
+<form id="/add-genre-form" method="POST" action="/add-genre-form">
+    <label for="input-genre">Genre Name: </label>
+    <input type="text" name="input-genre" id="input-genre">
+
+    <input type="submit">
+</form>
