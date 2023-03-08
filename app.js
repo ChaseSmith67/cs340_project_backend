@@ -321,6 +321,34 @@ app.get('/edit_movies', function(req, res) {
     })
 });
 
+// View MovieActors Intersection Table
+app.get('/movie_actors', function(req, res) {
+    let query1 = "SELECT * FROM MovieActors";
+
+    db.pool.query(query1, function(error, rows, fields){
+        res.render('movie_actors', {data: rows});
+        })
+});
+
+// View MovieMoods Intersection Table
+app.get('/movie_moods', function(req, res) {
+    let query1 = "SELECT * FROM MovieMoods";
+
+    db.pool.query(query1, function(error, rows, fields){
+        res.render('movie_moods', {data: rows});
+        })
+});
+
+// View MovieGenres Intersection Table
+app.get('/movie_genres', function(req, res) {
+    let query1 = "SELECT * FROM MovieGenres";
+
+    db.pool.query(query1, function(error, rows, fields){
+        res.render('movie_genres', {data: rows});
+        })
+});
+
+
 //=====UPDATE=====
 app.put('/put-person-ajax', function(req,res,next){                                   
     let data = req.body;

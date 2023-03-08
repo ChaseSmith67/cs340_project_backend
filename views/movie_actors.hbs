@@ -1,0 +1,39 @@
+<h1>MovieActors</h1>
+<p>
+    This page displays the MovieActors intersection table. No direct editing of this table is allowed, but
+    it is available to view in order to help track down any potential issues. All changes to Movie/Actor 
+    relationships should be done through the Edit Movies page.
+</p>
+
+{{!-- The Data from our Database --}}
+
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, first name, last name, and birthdate, in order --}}
+        {{#each data}}
+
+        <tr>
+            <td>{{this.movie_id}}</td>
+            <td>{{this.actor_id}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
