@@ -383,6 +383,63 @@ app.post('/movie-history', function(req, res) {
     })
 });
 
+// View a Movie's Relationships (Actors, Genres, and Moods)
+app.post('/movie-relationships', function(req, res) {
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let movie_id = data['search-movie'];
+
+    // Query to find all actors for movie
+    let queryMovieActors = `SELECT first_name, last_name FROM Actors
+                            INNER JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
+                            INNER JOIN Movies ON MovieActors.movie_id = Movies.movie_id
+                            WHERE Movies.movie_id = ?`;
+
+    db.pool.query(queryMovieActors, [movie_id], function(error, actor, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+
+                // Query to find all genres for movie
+                let queryMovieGenres = `SELECT genre_name FROM Genres
+                            INNER JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
+                            INNER JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
+                            WHERE Movies.movie_id = ?`;
+
+                db.pool.query(queryMovieGenres, [movie_id], function(error, genre, fields){
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+
+                            // Query to find all moods for movie
+                            let queryMovieMoods = `SELECT mood_name FROM Moods
+                            INNER JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
+                            INNER JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
+                            WHERE Movies.movie_id = ?`;
+
+                        db.pool.query(queryMovieMoods, [movie_id], function(error, mood, fields){
+                            if (error) {
+                                console.log(error);
+                                res.sendStatus(400);
+                            } else {
+
+                                res.render('movie_relationships', {actor: actor, genre: genre, mood: mood, movie: movie_id});
+                            }
+                        })
+                        }
+                
+                    })
+            }
+        })
+});
+
 //=====UPDATE=====
 app.put('/put-person-ajax', function(req,res,next){                                   
     let data = req.body;

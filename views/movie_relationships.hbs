@@ -1,0 +1,117 @@
+<h1>This is the Movie Relationships page for Movie {{this.movie}}</h1>
+<p>All Actors associated with the movie are listed below.</p>
+
+{{!-- The Data from our Database --}}
+
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each actor.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Modify</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, title, year, and age rating in order --}}
+        {{#each actor}}
+        <tr>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<br>
+
+<p>All Genres associated with the movie are listed below.</p>
+
+{{!-- The Data from our Database --}}
+
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each genre.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Modify</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, title, year, and age rating in order --}}
+        {{#each genre}}
+        <tr>
+            <td>{{this.genre_name}}</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<br>
+
+
+{{!-- The Data from our Database --}}
+
+<p>All Moods associated with the movie are listed below.</p>
+
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each mood.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Modify</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, title, year, and age rating in order --}}
+        {{#each mood}}
+        <tr>
+            <td>{{this.mood_name}}</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

@@ -74,3 +74,25 @@
 
     <input type="submit">
 </form>
+
+<br>
+
+<h2>View/Edit a Movie's Relationships</h2>
+
+<p>
+    Select a Movie below to see all the Actors, Genres and Moods associated with that movie.
+    You can also add or remove any of those relationships from that page.
+</p>
+
+<form id="/movie-relationships-form" method="POST" action="/movie-relationships">
+    <label for="search-movie">Movie Title: </label>
+    <select name="search-movie" id="search-movie">
+        {{#each data}}
+        <option value="{{this.movie_id}}">{{this.movie_title}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+<br>
