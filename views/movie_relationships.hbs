@@ -37,6 +37,21 @@
     </tbody>
 </table>
 
+<h2>Add an Actor to this Movie</h2>
+
+<p>Select an Actor below and click `Submit` to add them to the cast of this Movie</p>
+
+<form id="movie-add-actor-form" method="POST" action="/movie-add-actor-form">
+    <label for="input-actor-name">Actor: </label>
+    <select name="input-actor-name" id="input-actor-name">
+        {{#each add_actor}}
+        <option value="{{this.actor_id}}">{{this.full_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Add Actor to Movie">
+</form>
+
 <br>
 
 
