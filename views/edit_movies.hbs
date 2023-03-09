@@ -1,60 +1,75 @@
-    <h1>Edit Movies Page</h1>
-    <p>Use this page to add or remove existing actors, moods, or genres from movies already in the database.</p>
-    
-    <form id="edit-movies-form" method="POST" action="/select-movie">
-        <fieldset>
-            <legend>Select Movie to Edit</legend>
+<h1>Edit Movies Page</h1>
+<p>Use this page to add or remove existing actors, moods, or genres from movies already in the database.</p>
 
-            <label for="movies">Movie</label>
-            <select name="movies">
-                {{#each movie}}
-                <option value="{{this.id}}">{{this.title}}</option>
-                {{/each}}
-            </select>
-        </fieldset>
-    </form>
-    <br>
-    <form id="edit-movies-mood" method="POST" action="/edit-movies-mood">
-        <fieldset>
-            <legend>Select Mood to Add or Remove</legend>
-            <label for="mood">Moods</label>
-            <select name="mood">
-                {{#each mood}}
-                <option value="{{this.mood_id}}">{{this.mood_name}}</option>
-                {{/each}}
-            </select>
-            <input type="button" value="Add">
-            <input type="button" value="Remove">
-        </fieldset>
-    </form>
-    <br>
-    <form id="edit-movies-genre" method="POST" action="/edit-movies-genre">
-        <fieldset>
-            <legend>Select Genre to Add or Remove</legend>
-            <label for="genre">Genres</label>
-            <select name="genre">
-                {{#each genre}}
-                <option value="{{this.genre_id}}">{{this.genre_name}}</option>
-                {{/each}}
-            </select>
-        
-            <input type="button" value="Add">
-            <input type="button" value="Remove">
-        </fieldset>
-    </form>
-    <br>
-    <form id="edit-movies-actor" method="POST" action="/edit-movies-actor">
-        <fieldset>
-            <legend>Select Actor to Add or Remove</legend>
-            <label for="actor">Actors</label>
-            <select name="genre">
-                {{#each actor}}
-                <option value="{{this.actor_id}}">{{this.fullName}}</option>
-                {{/each}}
-            </select>
-        
-            <input type="button" value="Add">
-            <input type="button" value="Remove">
+<nav>
+    <ul style="list-style-type: none">
+        <li><a href="/actors">Actors</a></li>
+        <li><a href="/moods">Moods</a></li>
+        <li><a href="/movies">Movies</a></li>
+        <li><a href="/users">Users</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/age_ratings">AgeRating</a></li>
+        <li><a href="/movie_actors">MovieActors (Read Only)</a></li>
+        <li><a href="/movie_moods">MovieMoods (Read Only)</a></li>
+        <li><a href="/movie_genres">MovieGenres (Read Only)</a></li>
+        <li><a href="/user_movies">UserMovies (Read Only)</a></li>
+    </ul>
+</nav>
 
-        </fieldset>
-    </form>
+<form id="edit-movies-form" method="POST" action="/select-movie">
+    <fieldset>
+        <legend>Select Movie to Edit</legend>
+
+        <label for="movies">Movie</label>
+        <select name="movies">
+            {{#each movie}}
+            <option value="{{this.id}}">{{this.title}}</option>
+            {{/each}}
+        </select>
+    </fieldset>
+</form>
+<br>
+<form id="edit-movies-mood" method="POST" action="/edit-movies-mood">
+    <fieldset>
+        <legend>Select Mood to Add or Remove</legend>
+        <label for="mood">Moods</label>
+        <select name="mood">
+            {{#each mood}}
+            <option value="{{this.mood_id}}">{{this.mood_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" value="Add">
+        <input type="button" value="Remove">
+    </fieldset>
+</form>
+<br>
+<form id="edit-movies-genre" method="POST" action="/edit-movies-genre">
+    <fieldset>
+        <legend>Select Genre to Add or Remove</legend>
+        <label for="genre">Genres</label>
+        <select name="genre">
+            {{#each genre}}
+            <option value="{{this.genre_id}}">{{this.genre_name}}</option>
+            {{/each}}
+        </select>
+
+        <input type="button" value="Add">
+        <input type="button" value="Remove">
+    </fieldset>
+</form>
+<br>
+<form id="edit-movies-actor" method="POST" action="/edit-movies-actor">
+    <fieldset>
+        <legend>Select Actor to Add or Remove</legend>
+        <label for="actor">Actors</label>
+        <select name="genre">
+            {{#each actor}}
+            <option value="{{this.actor_id}}">{{this.fullName}}</option>
+            {{/each}}
+        </select>
+
+        <input type="button" value="Add">
+        <input type="button" value="Remove">
+
+    </fieldset>
+</form>

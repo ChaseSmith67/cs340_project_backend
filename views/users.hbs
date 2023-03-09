@@ -4,6 +4,22 @@
 {{!-- The Data from our Database --}}
 
 {{!-- Create a table --}}
+
+<nav>
+    <ul style="list-style-type: none">
+        <li><a href="/actors">Actors</a></li>
+        <li><a href="/moods">Moods</a></li>
+        <li><a href="/movies">Movies</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/age_ratings">AgeRating</a></li>
+        <li><a href="/edit_movies">Edit Movies</a></li>
+        <li><a href="/movie_actors">MovieActors (Read Only)</a></li>
+        <li><a href="/movie_moods">MovieMoods (Read Only)</a></li>
+        <li><a href="/movie_genres">MovieGenres (Read Only)</a></li>
+        <li><a href="/user_movies">UserMovies (Read Only)</a></li>
+    </ul>
+</nav>
+
 <table>
 
     {{!-- Header section --}}
@@ -50,10 +66,10 @@
     <label for="search-user-id">User ID: </label>
     <select name="search-user-id" id="search-user-id">
         {{#each data}}
-    <option value="{{this.user_id}}">{{this.user_id}}</option>
+        <option value="{{this.user_id}}">{{this.user_id}}</option>
         {{/each}}
     </select>
-    
+
     <input type="submit">
 </form>
 
