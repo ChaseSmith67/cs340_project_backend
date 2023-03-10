@@ -1,9 +1,9 @@
-<h1>This is the Movie Relationships page for Movie {{this.movie}}</h1>
+<h1>This is the Movie Relationships page for {{this.movie}}</h1>
 
 {{!-- The Data from our Database --}}
 
 {{!-- Create a table --}}
-<label for="actors-table">Actors associated with this movie</label>
+<label for="actors-table">Actors associated with this {{this.movie}}</label>
 <table id="actors-table">
 
     {{!-- Header section --}}
@@ -58,7 +58,7 @@
 {{!-- The Data from our Database --}}
 
 {{!-- Create a table --}}
-<label for="genres-table">Genres associated with this movie</label>
+<label for="genres-table">Genres associated with {{this.movie}}</label>
 <table id="genres-table">
 
     {{!-- Header section --}}
@@ -112,7 +112,7 @@
 {{!-- The Data from our Database --}}
 
 {{!-- Create a table --}}
-<label for="moods-table">Moods associated with this movie</label>
+<label for="moods-table">Moods associated with {{this.movie}}</label>
 <table id="moods-table">
 
     {{!-- Header section --}}
