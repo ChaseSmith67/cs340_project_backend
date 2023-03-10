@@ -144,3 +144,18 @@
         {{/each}}
     </tbody>
 </table>
+
+<fieldset>
+<label for="movie-add-mood-form">Add an Mood to this Movie</label>
+
+<form id="movie-add-mood-form" method="POST" action="/movie-add-mood-form">
+    <label for="input-mood">Mood: </label>
+    <select name="input-mood" id="input-mood">
+        {{#each add_mood}}
+        <option value="{{this.mood_id}}">{{this.mood_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Add Mood to Movie">
+</form>
+</fieldset>

@@ -456,19 +456,36 @@ app.post('/movie-relationships', function(req, res) {
                                                 res.sendStatus(400);
                                             } else {
 
-                                                res.render('movie_relationships', 
-                                                {actor: actor, add_actor: add_actor, genre: genre, add_genre: genre, mood: mood, movie: movie_id});
+                                                 // Query to find all Moods not associated with movie
+                                                let queryMovieAddMoods = `SELECT * FROM Moods 
+                                                WHERE NOT  Moods.mood_id IN (SELECT Moods.mood_id FROM Moods
+                                                RIGHT JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
+                                                RIGHT JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
+                                                WHERE Movies.movie_id = ?)`;
+
+                                                db.pool.query(queryMovieAddMoods, [movie_id], function(error, add_mood, fields){
+                                                if (error) {
+                                                    console.log(error);
+                                                    res.sendStatus(400);
+                                                } else {
+
+                                                    res.render('movie_relationships', 
+                                                    {actor: actor, add_actor: add_actor, genre: genre, add_genre: add_genre, 
+                                                        mood: mood, add_mood: add_mood, movie: movie_id});
+                                                }
+                                                })
                                             }
-                                        })
+                                })
                                 }
-                
+                            
                         })
                     }       
                 })
             }
         })
     }
-})});
+})
+});
 
 //=====UPDATE=====
 app.put('/put-person-ajax', function(req,res,next){                                   
