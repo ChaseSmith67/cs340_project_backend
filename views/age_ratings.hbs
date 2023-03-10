@@ -18,7 +18,7 @@
 </nav>
 
 {{!-- Create a table --}}
-<table>
+<table id="age-table">
 
     {{!-- Header section --}}
     <thead>
@@ -65,3 +65,27 @@
 
     <input type="submit">
 </form>
+
+<h2>Update Age Rating</h2>
+
+<form id="update-age-form-ajax">
+
+    <fieldset class="fields">
+
+        <label for="input-update-age-id">Age ID: </label>
+        <select name="input-update-age-id" id="input-update-age-id">
+            <option>Select an ID</option>
+            {{#each data}}
+            <option value="{{this.id}}">{{this.age_rating_id}}</option>
+            {{/each}}
+        </select>
+
+        <label for="input-update-description">Description: </label>
+        <input type="text" name="input-update-description" id="input-update-description">
+
+
+        <input type="submit">
+    </fieldset>
+</form>
+
+<script src="./js/age_rating_update.js"></script>
