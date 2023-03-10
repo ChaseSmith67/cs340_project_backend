@@ -384,17 +384,19 @@ app.post('/movie-history', function(req, res) {
 });
 
 //=====UPDATE=====
-app.put('/put-person-ajax', function(req,res,next){                                   
+app.put('/update-actor-ajax', function(req,res,next){                                   
     let data = req.body;
   
-    let birthDate = parseInt(data.birthDate);
-    let actor = parseInt(data.fullname);
-  
-    queryUpdateActor = `UPDATE Actors SET actor_birth_date = ? WHERE Actors.actor_id = ?`;
-    //selectActor = `SELECT * FROM actor_birth_date WHERE id = ?`
+    let birthdate = data.birthDate;
+    let actor = data.actorID;
+
+
+    let queryUpdateActor = 'UPDATE Actors SET actor_birth_date =? WHERE actor_id = ?';
+    
+    let selectActor = `SELECT * FROM Actors WHERE actor_id = ?`;
   
           // Run the 1st query
-          db.pool.query(queryUpdateActor, [birthDate, actor], function(error, rows, fields){
+          db.pool.query(queryUpdateActor, [birthdate, actor], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -407,7 +409,7 @@ app.put('/put-person-ajax', function(req,res,next){
               else
               {
                   // Run the second query
-                  db.pool.query(selectActor, [birthDate], function(error, rows, fields) {
+                  db.pool.query(selectActor, [actor], function(error, rows, fields) {
           
                       if (error) {
                           console.log(error);
@@ -417,6 +419,43 @@ app.put('/put-person-ajax', function(req,res,next){
                       }
                   })
               }
+  })});
+
+
+  app.put('/update-user-ajax', function(req,res,next){                                   
+    let data = req.body;
+
+    let updatedEmail = data.updatedEmail;
+    let updatedPhone = data.updatePhone;
+
+
+    let queryUpdateUser = 'UPDATE Users SET user_email = ?, user_phone = ?, WHERE user_id = ?';
+    let selectUser = `SELECT * FROM Users WHERE user_id = ?`;
+
+    db.pool.query(queryUpdateUser, [updatedEmail, updatedPhone], function (error, rows, fields) {
+
+        if (error) {
+  
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }
+  
+            // If there was no error, we run our second query and return that data so we can use it to update the people's
+            // table on the front-end
+        else
+        {
+            // Run the second query
+            db.pool.query(selectUser, [user_id], function(error, rows, fields) {
+          
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            })
+        }
   })});
 
 //=====DELETE=====
