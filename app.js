@@ -384,6 +384,110 @@ app.post('/movie-history', function(req, res) {
     })
 });
 
+// View a Movie's Relationships (Actors, Genres, and Moods)
+app.post('/movie-relationships', function(req, res) {
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let movie_title = data['search-movie'];
+
+    // Query to find all actors for movie
+    let queryMovieActors = `SELECT first_name, last_name FROM Actors
+                            INNER JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
+                            INNER JOIN Movies ON MovieActors.movie_id = Movies.movie_id
+                            WHERE Movies.movie_title = ?`;
+
+    db.pool.query(queryMovieActors, [movie_title], function(error, actor, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+
+                // Query to find all actors not in movie
+                let queryMovieAddActors = `SELECT * FROM Actors 
+                                        WHERE NOT  Actors.actor_id IN (SELECT Actors.actor_id FROM Actors
+                                        RIGHT JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
+                                        RIGHT JOIN Movies ON MovieActors.movie_id = Movies.movie_id
+                                        WHERE Movies.movie_title = ?)`;
+
+                db.pool.query(queryMovieAddActors, [movie_title], function(error, add_actor, fields){
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+
+                        // Query to find all genres for movie
+                        let queryMovieGenres = `SELECT genre_name FROM Genres
+                                            INNER JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
+                                            INNER JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
+                                            WHERE Movies.movie_title = ?`;
+
+                        db.pool.query(queryMovieGenres, [movie_title], function(error, genre, fields){
+                                if (error) {
+                                    console.log(error);
+                                    res.sendStatus(400);
+                                } else {
+
+                                    // Query to find all Genres not associated with movie
+                                    let queryMovieAddGenres = `SELECT * FROM Genres 
+                                                            WHERE NOT  Genres.genre_id IN (SELECT Genres.genre_id FROM Genres
+                                                            RIGHT JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
+                                                            RIGHT JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
+                                                            WHERE Movies.movie_title = ?)`;
+
+                                    db.pool.query(queryMovieAddGenres, [movie_title], function(error, add_genre, fields){
+                                    if (error) {
+                                        console.log(error);
+                                        res.sendStatus(400);
+                                    } else {
+
+                                        // Query to find all moods for movie
+                                        let queryMovieMoods = `SELECT mood_name FROM Moods
+                                                            INNER JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
+                                                            INNER JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
+                                                            WHERE Movies.movie_title = ?`;
+
+                                        db.pool.query(queryMovieMoods, [movie_title], function(error, mood, fields){
+                                            if (error) {
+                                                console.log(error);
+                                                res.sendStatus(400);
+                                            } else {
+
+                                                 // Query to find all Moods not associated with movie
+                                                let queryMovieAddMoods = `SELECT * FROM Moods 
+                                                WHERE NOT  Moods.mood_id IN (SELECT Moods.mood_id FROM Moods
+                                                RIGHT JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
+                                                RIGHT JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
+                                                WHERE Movies.movie_title = ?)`;
+
+                                                db.pool.query(queryMovieAddMoods, [movie_title], function(error, add_mood, fields){
+                                                if (error) {
+                                                    console.log(error);
+                                                    res.sendStatus(400);
+                                                } else {
+
+                                                    res.render('movie_relationships', 
+                                                    {actor: actor, add_actor: add_actor, genre: genre, add_genre: add_genre, 
+                                                        mood: mood, add_mood: add_mood, movie: movie_title});
+                                                }
+                                                })
+                                            }
+                                })
+                                }
+                            
+                        })
+                    }       
+                })
+            }
+        })
+    }
+})
+});
+
 //=====UPDATE=====
 
 //UPDATE ACTORS
