@@ -408,7 +408,7 @@ app.post('/movie-relationships', function(req, res) {
 
                 // Query to find all actors not in movie
                 let queryMovieAddActors = `SELECT * FROM Actors 
-                                        WHERE NOT  Actors.actor_id = (SELECT Actors.actor_id FROM Actors
+                                        WHERE NOT  Actors.actor_id IN (SELECT Actors.actor_id FROM Actors
                                         RIGHT JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
                                         RIGHT JOIN Movies ON MovieActors.movie_id = Movies.movie_id
                                         WHERE Movies.movie_id = ?)`;
