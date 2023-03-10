@@ -20,7 +20,7 @@
     </ul>
 </nav>
 
-<table>
+<table id="user-table">
 
     {{!-- Header section --}}
     <thead>
@@ -88,3 +88,24 @@
 
     <input type="submit">
 </form>
+
+<h2>Updating A User's Email and Phone number</h2>
+<p>To update a specific user's enter in the information below</p>
+<form id="update-user-form-ajax">
+
+    <fieldset class="fields">
+
+        <label for="input-update-user-id">User ID: </label>
+        <input type="text" name="input-update-user-id" id="input-update-user-id">
+
+        <label for="input-update-email">Email: </label>
+        <input type="text" name="input-update-email" id="input-update-email">
+
+        <label for="input-update-Phone">Phone Number: </label>
+        <input type="text" name="input-update-Phone" id="input-update-Phone">
+
+        <input type="submit">
+    </fieldset>
+</form>
+
+<script src="./js/update_user.js"></script>
