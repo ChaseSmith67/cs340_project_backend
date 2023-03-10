@@ -11,26 +11,32 @@ updatePersonForm.addEventListener("submit", function(e) {
 
     let inputFullName = document.getElementById("mySelect");
     let inputBirthDate = document.getElementById("input-birthdate-update");
+    let inputActorID = document.getElementById("input-update-actor-id");
 
     //getting values from the fields
-
-    let fullNameValue = inputFullName.value;
+    let actorID = inputActorID.value;
+    let fullNameValue = inputFullName.options[inputFullName.selectedIndex].text;
     let birthDateValue = inputBirthDate.value;
+    
 
-    if(isNaN(fullNameValue)){
-
+    /*if (isNaN(Date.parse(birthDateValue))) {
+        console.log("Invalid date format");
         return;
-    }
+    }*/
 
     let data = {
-        firstName: fullNameValue,
+
+        fullName: fullNameValue,
         birthDate: birthDateValue,
+        actorID: actorID
 
-    }
+    };
 
-    var xhttp = new XMLHttpRequest();
+    //let actorId = inputFullName.options[inputFullName.selectedIndex].value;
 
-    xhttp.open("PUT", "/put-person-ajax", true);
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.open("PUT", "/update-actor-ajax" , true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     xhttp.onreadystatechange = () => {
@@ -38,8 +44,10 @@ updatePersonForm.addEventListener("submit", function(e) {
         //add the new data
         if(xhttp.readyState == 4 && xhttp.status == 200){
 
-            updateRow(xhttp.response, fullNameValue);
-            //updateRow(xhttp.response, birthDateValue);
+            updateRow(xhttp.response, actorID);
+            inputActorID.value = '';
+            fullName.value = '';
+            birthDate.value = '';
 
         }else if(xhttp.readyState == 4 && xhttp.status != 200){
 
@@ -47,32 +55,30 @@ updatePersonForm.addEventListener("submit", function(e) {
         }
     }
 
-    xhttp.send(json.stringify(data));
+    xhttp.send(JSON.stringify(data));
 
 
-})
+});
 
-function updateRow(data, actorID){
+function updateRow(data, actorID) {
+    console.log(data);
+    let parsedData = JSON.parse(data);
+    let table = document.getElementById("people-table");
 
-    let parsedData = json.parse(data);
-    let table = document.getElementById("actor-table");
-    var counter;
-
-    //for loop to iterate
-
-    for(var i = 0, row; row = table.rows[i]; i++){
-
-        if(table.row[i].getAttribute("data-value") == actorID){
-            var counter = i;
-
-            let currentTable = document.getElementById("actor-table");
-            //find location of id and get td of names
-
-            let updatedRowIndex = currentTable.getElementsByTagName("tr")[counter];
-            let td = updatedRowIndex.getElementsByTagName("td")[3];
-
-            td.innerHTML = parsedData[0].birthDate;
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == actorID) {
+ 
+             // Get the location of the row where we found the matching person ID
+             let updateRowIndex = table.getElementsByTagName("tr")[i];
+ 
+             // Get td of homeworld value
+             let tdbirthday = updateRowIndex.getElementsByTagName("td")[4];
             
+             tdbirthday.innerHTML = parsedData[0].birthday;
         }
-    }
-}
+     }
+ };
+ 
+
