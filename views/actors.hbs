@@ -72,7 +72,7 @@
     <label for="input-lname">Last Name: </label>
     <input type="text" name="input-lname" id="input-lname">
 
-    <label for="input-age">Birthdate: </label>
+    <label for="input-birthdate">Birthdate: </label>
     <input type="date" name='input-birthdate' id='input-birthdate'>
 
     <input type="submit">
@@ -88,7 +88,7 @@
     <input type="text" name="input-update-actor-id" id="input-update-actor-id">
 
     <label for="input-fullname">Full name: </label>
-    <select name="input-fullname" id="mySelect">
+    <select name="input-fullname" id="input-fullname">
         <option value="test">Select an Actor</option>
         {{#each data}}
         <option value="{{this.actor_id}}">{{this.first_name}} {{this.last_name}}</option>
