@@ -41,6 +41,7 @@ app.post('/add-actor-form', function(req, res){
     let last_name = data['input-lname'];
     let birthdate = new Date(data['input-birthdate']);
     let birthday = birthdate.toISOString(birthdate).slice(0, 10);
+    
 
     console.log(String(birthday));
     
@@ -422,19 +423,21 @@ app.put('/update-actor-ajax', function(req,res,next){
   })});
 
 
-  app.put('/update-user-ajax', function(req,res,next){                                   
+app.put('/update-user-ajax', function(req,res,next){                                   
     let data = req.body;
 
     let updatedEmail = data.updatedEmail;
-    let updatedPhone = data.updatePhone;
+    let updatedPhone = data.updatedPhone;
+    let userID = data.userID;
 
-
-    let queryUpdateUser = 'UPDATE Users SET user_email = ?, user_phone = ?, WHERE user_id = ?';
+    
+    let queryUpdateUser = 'UPDATE Users SET user_email = ? , user_phone = ? WHERE user_id = ?';
     let selectUser = `SELECT * FROM Users WHERE user_id = ?`;
 
-    db.pool.query(queryUpdateUser, [updatedEmail, updatedPhone], function (error, rows, fields) {
+    db.pool.query(queryUpdateUser, [updatedEmail, updatedPhone, userID], function (error, rows, fields) {
 
         if (error) {
+            
   
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
@@ -446,7 +449,7 @@ app.put('/update-actor-ajax', function(req,res,next){
         else
         {
             // Run the second query
-            db.pool.query(selectUser, [user_id], function(error, rows, fields) {
+            db.pool.query(selectUser, [userID], function(error, rows, fields) {
           
                 if (error) {
                     console.log(error);
