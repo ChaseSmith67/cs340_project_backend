@@ -30,7 +30,7 @@
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
             <td>
-                <button>Delete</button>
+                <button>Remove</button>
             </td>
         </tr>
         {{/each}}
@@ -58,7 +58,7 @@
 {{!-- The Data from our Database --}}
 
 {{!-- Create a table --}}
-<label for="genres-table">Genres are associated with this movie</label>
+<label for="genres-table">Genres associated with this movie</label>
 <table id="genres-table">
 
     {{!-- Header section --}}
@@ -84,12 +84,27 @@
         <tr>
             <td>{{this.genre_name}}</td>
             <td>
-                <button>Delete</button>
+                <button>Remove</button>
             </td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+<fieldset>
+<label for="movie-add-genre-form">Add an Genre to this Movie</label>
+
+<form id="movie-add-genre-form" method="POST" action="/movie-add-genre-form">
+    <label for="input-genre">Genre: </label>
+    <select name="input-genre" id="input-genre">
+        {{#each add_genre}}
+        <option value="{{this.genre_id}}">{{this.genre_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Add Genre to Movie">
+</form>
+</fieldset>
 
 <br>
 
@@ -123,7 +138,7 @@
         <tr>
             <td>{{this.mood_name}}</td>
             <td>
-                <button>Delete</button>
+                <button>Remove</button>
             </td>
         </tr>
         {{/each}}

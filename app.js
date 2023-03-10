@@ -431,21 +431,35 @@ app.post('/movie-relationships', function(req, res) {
                                     res.sendStatus(400);
                                 } else {
 
-                                    // Query to find all moods for movie
-                                    let queryMovieMoods = `SELECT mood_name FROM Moods
-                                                        INNER JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
-                                                        INNER JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
-                                                        WHERE Movies.movie_id = ?`;
+                                    // Query to find all Genres not associated with movie
+                                    let queryMovieAddGenres = `SELECT * FROM Genres 
+                                                            WHERE NOT  Genres.genre_id IN (SELECT Genres.genre_id FROM Genres
+                                                            RIGHT JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
+                                                            RIGHT JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
+                                                            WHERE Movies.movie_id = ?)`;
 
-                                db.pool.query(queryMovieMoods, [movie_id], function(error, mood, fields){
+                                    db.pool.query(queryMovieAddGenres, [movie_id], function(error, add_genre, fields){
                                     if (error) {
                                         console.log(error);
                                         res.sendStatus(400);
                                     } else {
 
-                                        res.render('movie_relationships', {actor: actor, add_actor: add_actor, genre: genre, mood: mood, movie: movie_id});
-                                    }
-                                })
+                                        // Query to find all moods for movie
+                                        let queryMovieMoods = `SELECT mood_name FROM Moods
+                                                            INNER JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
+                                                            INNER JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
+                                                            WHERE Movies.movie_id = ?`;
+
+                                        db.pool.query(queryMovieMoods, [movie_id], function(error, mood, fields){
+                                            if (error) {
+                                                console.log(error);
+                                                res.sendStatus(400);
+                                            } else {
+
+                                                res.render('movie_relationships', 
+                                                {actor: actor, add_actor: add_actor, genre: genre, add_genre: genre, mood: mood, movie: movie_id});
+                                            }
+                                        })
                                 }
                 
                         })
@@ -453,7 +467,8 @@ app.post('/movie-relationships', function(req, res) {
                 })
             }
         })
-    });
+    }
+})});
 
 //=====UPDATE=====
 app.put('/put-person-ajax', function(req,res,next){                                   
