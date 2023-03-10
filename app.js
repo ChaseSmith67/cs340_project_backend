@@ -385,6 +385,8 @@ app.post('/movie-history', function(req, res) {
 });
 
 //=====UPDATE=====
+
+//UPDATE ACTORS
 app.put('/update-actor-ajax', function(req,res,next){                                   
     let data = req.body;
   
@@ -422,7 +424,7 @@ app.put('/update-actor-ajax', function(req,res,next){
               }
   })});
 
-
+//UPDATE USER
 app.put('/update-user-ajax', function(req,res,next){                                   
     let data = req.body;
 
@@ -461,6 +463,44 @@ app.put('/update-user-ajax', function(req,res,next){
         }
   })});
 
+
+//UPDATE AGE_RATING
+app.put('/update-age-ajax', function(req,res,next){                                   
+    let data = req.body;
+
+    let updatedDescription = data.updatedDescription;
+    let ageID = data.ageID;
+
+    
+    let queryUpdateUser = 'UPDATE AgeRatings SET age_rating_description = ?';
+    let selectUser = `SELECT * FROM AgeRatings WHERE age_rating_id = ?`;
+
+    db.pool.query(queryUpdateUser, [updatedDescription, ageID], function (error, rows, fields) {
+
+        if (error) {
+            
+  
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }
+  
+            // If there was no error, we run our second query and return that data so we can use it to update the people's
+            // table on the front-end
+        else
+        {
+            // Run the second query
+            db.pool.query(selectUser, [ageID], function(error, rows, fields) {
+          
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            })
+        }
+})});
 //=====DELETE=====
 
 app.delete('/delete-actor-ajax/', function(req,res,next){
