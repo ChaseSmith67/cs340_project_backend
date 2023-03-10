@@ -18,7 +18,7 @@
 </nav>
 
 {{!-- Create a table --}}
-<table id="actor-table">
+<table id="people-table">
 
     {{!-- Header section --}}
     <thead>
@@ -36,7 +36,7 @@
     </thead>
 
     {{!-- Body section --}}
-    <tbody id="people-table">
+    <tbody>
 
         {{!-- For each row, print the id, first name, last name, and birthdate, in order --}}
         {{#each data}}
@@ -83,6 +83,9 @@
 <h2>Update Actor</h2>
 <p>Please select from the drop down of the desired Actor you would like to update</p>
 <form id="update-actor-form-ajax">
+
+    <label for="input-update-actor-id">Actor ID: </label>
+    <input type="text" name="input-update-actor-id" id="input-update-actor-id">
 
     <label for="input-fullname">Full name: </label>
     <select name="input-fullname" id="mySelect">
