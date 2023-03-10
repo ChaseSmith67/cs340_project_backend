@@ -1,0 +1,161 @@
+<h1>This is the Movie Relationships page for {{this.movie}}</h1>
+
+{{!-- The Data from our Database --}}
+
+{{!-- Create a table --}}
+<label for="actors-table">Actors associated with this {{this.movie}}</label>
+<table id="actors-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each actor.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Modify</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the first name and last name --}}
+        {{#each actor}}
+        <tr>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>
+                <button>Remove</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<fieldset>
+<label for="movie-add-actor-form">Add an Actor to this Movie</label>
+
+<form id="movie-add-actor-form" method="POST" action="/movie-add-actor-form">
+    <label for="input-actor-name">Actor: </label>
+    <select name="input-actor-name" id="input-actor-name">
+        {{#each add_actor}}
+        <option value="{{this.actor_id}}">{{this.first_name}} {{this.last_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Add Actor to Movie">
+</form>
+</fieldset>
+
+<br>
+
+
+{{!-- The Data from our Database --}}
+
+{{!-- Create a table --}}
+<label for="genres-table">Genres associated with {{this.movie}}</label>
+<table id="genres-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each genre.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Modify</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the genre --}}
+        {{#each genre}}
+        <tr>
+            <td>{{this.genre_name}}</td>
+            <td>
+                <button>Remove</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<fieldset>
+<label for="movie-add-genre-form">Add an Genre to this Movie</label>
+
+<form id="movie-add-genre-form" method="POST" action="/movie-add-genre-form">
+    <label for="input-genre">Genre: </label>
+    <select name="input-genre" id="input-genre">
+        {{#each add_genre}}
+        <option value="{{this.genre_id}}">{{this.genre_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Add Genre to Movie">
+</form>
+</fieldset>
+
+<br>
+
+
+{{!-- The Data from our Database --}}
+
+{{!-- Create a table --}}
+<label for="moods-table">Moods associated with {{this.movie}}</label>
+<table id="moods-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each mood.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Modify</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the mood --}}
+        {{#each mood}}
+        <tr>
+            <td>{{this.mood_name}}</td>
+            <td>
+                <button>Remove</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<fieldset>
+<label for="movie-add-mood-form">Add an Mood to this Movie</label>
+
+<form id="movie-add-mood-form" method="POST" action="/movie-add-mood-form">
+    <label for="input-mood">Mood: </label>
+    <select name="input-mood" id="input-mood">
+        {{#each add_mood}}
+        <option value="{{this.mood_id}}">{{this.mood_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Add Mood to Movie">
+</form>
+</fieldset>
