@@ -1,5 +1,5 @@
 //getting objects
-
+//update for actors page
 let updatePersonForm = document.getElementById("update-actor-form-ajax");
 
 updatePersonForm.addEventListener("submit", function(e) {
@@ -8,14 +8,14 @@ updatePersonForm.addEventListener("submit", function(e) {
     e.preventDefault();
 
     //getting forms
-
-    let inputFullName = document.getElementById("mySelect");
+    
+    let inputFullName = document.getElementById("input-fullname");
     let inputBirthDate = document.getElementById("input-birthdate-update");
     let inputActorID = document.getElementById("input-update-actor-id");
 
     //getting values from the fields
     let actorID = inputActorID.value;
-    let fullNameValue = inputFullName.options[inputFullName.selectedIndex].text;
+    let fullNameValue = inputFullName.value;
     let birthDateValue = inputBirthDate.value;
     
 
@@ -31,7 +31,7 @@ updatePersonForm.addEventListener("submit", function(e) {
         actorID: actorID
 
     };
-
+    
     //let actorId = inputFullName.options[inputFullName.selectedIndex].value;
 
     let xhttp = new XMLHttpRequest();
@@ -46,8 +46,8 @@ updatePersonForm.addEventListener("submit", function(e) {
 
             updateRow(xhttp.response, actorID);
             inputActorID.value = '';
-            fullName.value = '';
-            birthDate.value = '';
+            inputFullName.value = '';
+            inputBirthDate.value = '';
 
         }else if(xhttp.readyState == 4 && xhttp.status != 200){
 
