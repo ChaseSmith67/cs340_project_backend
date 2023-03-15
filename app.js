@@ -230,6 +230,46 @@ app.post('/add-movie-form', function(req, res){
         })
 })
 
+
+// Add an Actor to a Movie
+app.post("/movie-add-actor-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let actor_id = data['input-actor'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO MovieActors (movie_id, actor_id) VALUES
+    ((SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}'), '${actor_id}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Actors and
+        // presents it on the screen
+        // else
+        // {
+        //     // res.send("<script type='text/javasctipt'>
+        //     //     location.reload(true);
+        //     //     </script>"
+        //     // );
+        //     //res.render('movie_relationships', { 'search-movie' : movie_title});
+        // }
+    })
+})
+
+
 //=====READ=====
 
 // Home Page
@@ -249,7 +289,7 @@ app.get('/movies', function(req, res) {
                 let query2 = "SELECT * FROM AgeRatings";
                 db.pool.query(query2, function(error, age_ratings, fields){
 
-                    res.render('movies', {data: rows, age_ratings: age_ratings});
+                    res.render('movies', {data: rows, age_ratings: age_ratings},);
 
                 })
             }
