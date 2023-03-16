@@ -299,6 +299,40 @@ app.post("/movie-add-genre-form", function(req, res){
     })
 })
 
+// Add a Mood to a Movie
+app.post("/movie-add-mood-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let mood_id = data['input-mood'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO MovieMoods (movie_id, mood_id) VALUES
+    ((SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}'), '${mood_id}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll redirect to Movies
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
 
 //=====READ=====
 
@@ -746,7 +780,7 @@ app.post("/movie-remove-actor-form", function(req, res){
     })
 })
 
-// Remove an Actor from a Movie
+// Remove a Genre from a Movie
 app.post("/movie-remove-genre-form", function(req, res){
 
     // Capture incoming data and parse it into JS Object
@@ -762,6 +796,41 @@ app.post("/movie-remove-genre-form", function(req, res){
     const query1 = `DELETE FROM MovieGenres WHERE movie_id = (SELECT movie_id FROM Movies 
         WHERE Movies.movie_title = '${movie_title}') AND genre_id = (SELECT genre_id 
         FROM Genres WHERE genre_name = '${genre}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Remove a Mood from a Movie
+app.post("/movie-remove-mood-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let mood = data['remove-mood'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM MovieMoods WHERE movie_id = (SELECT movie_id FROM Movies 
+        WHERE Movies.movie_title = '${movie_title}') AND mood_id = (SELECT mood_id 
+        FROM Moods WHERE mood_name = '${mood}');`
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
