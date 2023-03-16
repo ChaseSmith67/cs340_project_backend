@@ -17,7 +17,6 @@
                 {{@key}}
             </th>
             {{/each}}
-            <th>Modify</th>
         </tr>
     </thead>
 
@@ -29,9 +28,6 @@
         <tr>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
-            <td>
-                <button>Remove</button>
-            </td>
         </tr>
         {{/each}}
     </tbody>
@@ -50,6 +46,22 @@
     </select>
 
     <input type="submit" value="Add Actor to Movie">
+</form>
+
+<br>
+
+<label for="movie-remove-actor-form">Remove an Actor from this Movie</label>
+
+<form id="movie-remove-actor-form" method="POST" action="/movie-remove-actor-form">
+    <label for="input-actor">Actor: </label>
+    <input type="hidden" name="movie" value="{{this.movie}}">
+    <select name="remove-actor" id="remove-actor">
+        {{#each actor}}
+        <option>{{this.first_name}} {{this.last_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Remove Actor from Movie">
 </form>
 </fieldset>
 

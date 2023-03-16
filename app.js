@@ -256,6 +256,7 @@ app.post("/movie-add-actor-form", function(req, res){
             res.sendStatus(400);
         }
 
+        // Trying to find an efficient way to force page to reload...
         // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Actors and
         // presents it on the screen
         // else
@@ -677,6 +678,44 @@ app.delete('/delete-actor-ajax/', function(req,res,next){
               }
   })
 });
+
+// Remove an Actor from a Movie
+app.post("/movie-remove-actor-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let full_name = data['remove-actor'];
+    let name = full_name.split(" ");
+    let first_name = name[0];
+    let last_name = name[1];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM MovieActors WHERE movie_id = (SELECT movie_id FROM Movies 
+        WHERE Movies.movie_title = '${movie_title}') AND actor_id = (SELECT actor_id 
+        FROM Actors WHERE first_name = '${first_name}' AND last_name = '${last_name}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            app.redirect('/movies');
+        }
+    })
+})
 
 /*
     LISTENER
