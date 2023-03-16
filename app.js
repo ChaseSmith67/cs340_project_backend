@@ -512,8 +512,8 @@ app.post('/movie-relationships', function(req, res) {
                 // Query to find all actors not in movie
                 let queryMovieAddActors = `SELECT * FROM Actors 
                                         WHERE NOT  Actors.actor_id IN (SELECT Actors.actor_id FROM Actors
-                                        RIGHT JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
-                                        RIGHT JOIN Movies ON MovieActors.movie_id = Movies.movie_id
+                                        JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
+                                        JOIN Movies ON MovieActors.movie_id = Movies.movie_id
                                         WHERE Movies.movie_title = ?)`;
 
                 db.pool.query(queryMovieAddActors, [movie_title], function(error, add_actor, fields){
@@ -537,8 +537,8 @@ app.post('/movie-relationships', function(req, res) {
                                     // Query to find all Genres not associated with movie
                                     let queryMovieAddGenres = `SELECT * FROM Genres 
                                                             WHERE NOT  Genres.genre_id IN (SELECT Genres.genre_id FROM Genres
-                                                            RIGHT JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
-                                                            RIGHT JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
+                                                            JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
+                                                            JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
                                                             WHERE Movies.movie_title = ?)`;
 
                                     db.pool.query(queryMovieAddGenres, [movie_title], function(error, add_genre, fields){
@@ -562,8 +562,8 @@ app.post('/movie-relationships', function(req, res) {
                                                  // Query to find all Moods not associated with movie
                                                 let queryMovieAddMoods = `SELECT * FROM Moods 
                                                 WHERE NOT  Moods.mood_id IN (SELECT Moods.mood_id FROM Moods
-                                                RIGHT JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
-                                                RIGHT JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
+                                                JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
+                                                JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
                                                 WHERE Movies.movie_title = ?)`;
 
                                                 db.pool.query(queryMovieAddMoods, [movie_title], function(error, add_mood, fields){
