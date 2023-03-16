@@ -39,14 +39,12 @@ app.post('/add-actor-form', function(req, res){
     // Assign data objects to variables to input into db.pool
     let first_name = data['input-fname'];
     let last_name = data['input-lname'];
-    let birthdate = new Date(data['input-birthdate']);
-    let birthday = birthdate.toISOString(birthdate).slice(0, 10);
+    let birthdate = data['input-birthdate'];
+    // let birthday = birthdate.toISOString(birthdate).slice(0, 10);
     
-
-    console.log(String(birthday));
     
     // Create the query and run it on the database
-    const query1 = `INSERT INTO Actors (first_name, last_name, actor_birth_date) VALUES ('${first_name}', '${last_name}', DATE(${birthday}))`;
+    const query1 = `INSERT INTO Actors (first_name, last_name, actor_birth_date) VALUES ('${first_name}', '${last_name}', '${birthdate}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
