@@ -257,16 +257,45 @@ app.post("/movie-add-actor-form", function(req, res){
         }
 
         // Trying to find an efficient way to force page to reload...
-        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Actors and
-        // presents it on the screen
-        // else
-        // {
-        //     // res.send("<script type='text/javasctipt'>
-        //     //     location.reload(true);
-        //     //     </script>"
-        //     // );
-        //     //res.render('movie_relationships', { 'search-movie' : movie_title});
-        // }
+        // Until then, we'll redirect to Movies
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Add a Genre to a Movie
+app.post("/movie-add-genre-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let genre_id = data['input-genre'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO MovieGenres (movie_id, genre_id) VALUES
+    ((SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}'), '${genre_id}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll redirect to Movies
+        else
+        {
+            res.redirect('/movies');
+        }
     })
 })
 
@@ -712,7 +741,42 @@ app.post("/movie-remove-actor-form", function(req, res){
         // Until then, we'll just redirect back to movies. 
         else
         {
-            app.redirect('/movies');
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Remove an Actor from a Movie
+app.post("/movie-remove-genre-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let genre = data['remove-genre'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM MovieGenres WHERE movie_id = (SELECT movie_id FROM Movies 
+        WHERE Movies.movie_title = '${movie_title}') AND genre_id = (SELECT genre_id 
+        FROM Genres WHERE genre_name = '${genre}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/movies');
         }
     })
 })

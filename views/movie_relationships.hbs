@@ -105,10 +105,11 @@
 </table>
 
 <fieldset>
-<label for="movie-add-genre-form">Add an Genre to this Movie</label>
+<label for="movie-add-genre-form">Add a Genre to this Movie</label>
 
 <form id="movie-add-genre-form" method="POST" action="/movie-add-genre-form">
     <label for="input-genre">Genre: </label>
+    <input type="hidden" name="movie" value="{{this.movie}}">
     <select name="input-genre" id="input-genre">
         {{#each add_genre}}
         <option value="{{this.genre_id}}">{{this.genre_name}}</option>
@@ -116,6 +117,22 @@
     </select>
 
     <input type="submit" value="Add Genre to Movie">
+</form>
+
+<br>
+
+<label for="movie-remove-genre-form">Remove a Genre from this Movie</label>
+
+<form id="movie-remove-genre-form" method="POST" action="/movie-remove-genre-form">
+    <label for="remove-genre">Genre: </label>
+    <input type="hidden" name="movie" value="{{this.movie}}">
+    <select name="remove-genre" id="remove-genre">
+        {{#each genre}}
+        <option>{{this.genre_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Remove Genre from Movie">
 </form>
 </fieldset>
 
