@@ -29,7 +29,6 @@
         <tr>
             <td>{{this.movie_title}}</td>
             <td>
-                <button>Edit</button>
                 <button>Delete</button>
             </td>
         </tr>
@@ -37,6 +36,20 @@
     </tbody>
 </table>
 
+<fieldset>
+<label for="add-movie-user-form">Add a Movie to User's History</label>
+    <form id="add-movie-user-form" method="POST" action="/add-movie-user-form">
+        
+        <label for="add-movie">Movie Title: </label>
+        <select name="add-movie" id="add-movie">
+            {{#each add_movie}}
+            <option value="{{this.movie_title}}">{{this.movie_title}}</option>
+            {{/each}}
+        </select>
+        <input type="hidden" name="user" value="{{this.user}}">
+        <input type="submit">
+    </form>
+</fieldset>
 <br>
 
 <a href="/users">Return to Users Page</a>
