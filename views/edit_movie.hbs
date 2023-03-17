@@ -6,12 +6,15 @@
 
 
 <fieldset>
-    <form id="submit-movie-edit" action="/submit-movie-edit">
+    <form id="submit-movie-edit" method="POST" action="/submit-movie-edit">
     {{#each data}}
         <div style="white-space:nowrap">
         <label for="edit-title">Movie Title: </label>
-        <input id="edit-title" type="text" value="{{this.movie_title}}">
+        <input id="edit-title" type="text" name="edit-title"
+               value="{{this.movie_title}}">
         </div>
+
+        <input type="hidden" name="movie" value="{{this.movie_id}}">
 
         <div style="white-space:nowrap">
         <label for="edit-year">Year: </label>

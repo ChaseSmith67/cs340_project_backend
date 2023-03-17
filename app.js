@@ -786,6 +786,29 @@ app.put('/update-age-ajax', function(req,res,next){
         }
 })});
 
+// Edit Movie
+app.post('/submit-movie-edit', function(req, res) {
+
+    // Get data from request
+    let data = req.body;
+    let movieID = data['movie'];
+    let movieTitle = data['edit-title'];
+    let movieYear = data['edit-year'];
+    let movieAgeRating = data['edit-age-rating'];
+
+    // Query DB to update Movie info
+    let updateMovieQuery = `UPDATE Movies SET movie_title = '${movieTitle}', movie_year = '${movieYear}',
+            age_rating_id = '${movieAgeRating}' WHERE Movies.movie_id = '${movieID}'`
+
+    db.pool.query(updateMovieQuery, function(error, data, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            res.redirect('/movies');
+        }
+    })
+})
+
 
 //=====DELETE=====
 
