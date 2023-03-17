@@ -1,0 +1,34 @@
+<h1>Edit Movie Page</h1>
+<p>
+    Use the form below to edit this Movie's title, year, or age rating.
+</p>
+
+
+
+<fieldset>
+    <form id="submit-movie-edit" action="/submit-movie-edit">
+    {{#each data}}
+        <div style="white-space:nowrap">
+        <label for="edit-title">Movie Title: </label>
+        <input id="edit-title" type="text" value="{{this.movie_title}}">
+        </div>
+
+        <div style="white-space:nowrap">
+        <label for="edit-year">Year: </label>
+        <input type="number" name="edit-year" id="edit-year" min="1900"
+               max="2030" value="{{this.movie_year}}">
+        </div>
+    {{/each}}
+    
+        <div style="white-space:nowrap">
+        <label for="edit-age-rating">Age Rating: </label>
+        <select name="edit-age-rating" id="edit-age-rating">
+            {{#each age_rating}}
+            <option value="{{this.age_rating_id}}">{{this.age_rating_description}}</option>
+            {{/each}}
+        </select>
+        </div>
+
+        <input type="submit">
+    </form>
+</fieldset>

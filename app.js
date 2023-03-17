@@ -638,6 +638,36 @@ app.post('/movie-relationships', function(req, res) {
 })
 });
 
+// GET MOVIE DETAILS FOR EDIT MOVIE PAGE
+app.post('/edit-movie-form', function(req, res) {
+    let data = req.body;
+
+    console.log(data);
+
+    let movie_id = data['movie'];
+    let editMoviePageQuery = `SELECT * FROM Movies WHERE movie_id = '${movie_id}'`;
+
+    // Get existing movie data to populate input boxes
+    db.pool.query(editMoviePageQuery, [movie_id], function(error, data, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+
+            let ageRatingQuery = `SELECT * FROM AgeRatings`;
+
+            // Get Age Ratings for user to select
+            db.pool.query(ageRatingQuery, [movie_id], function(error, age_rating, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+
+                    res.render('edit_movie', {data: data, age_rating: age_rating});
+                }
+            })
+        }
+    })
+});
+
 //=====UPDATE=====
 
 //UPDATE ACTORS
@@ -755,6 +785,8 @@ app.put('/update-age-ajax', function(req,res,next){
             })
         }
 })});
+
+
 //=====DELETE=====
 
 app.delete('/delete-actor-ajax/', function(req,res,next){

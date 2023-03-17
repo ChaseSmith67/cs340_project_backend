@@ -90,3 +90,10 @@ body {
     display: inline;
     margin: 50px;
   }
+
+  .modify {
+    margin: 5px;
+    border: 0px;
+    padding: 5px;
+    display:inline-block;
+  }
