@@ -951,6 +951,39 @@ app.post("/movie-remove-mood-form", function(req, res){
     })
 })
 
+// Delete an Age Rating - Leaves NULL in place for Movies with that Age Rating
+app.post("/delete-age-rating-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let age_rating_id = data['age-rating-id'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM AgeRatings WHERE age_rating_id = '${age_rating_id}'`;
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/age_ratings');
+        }
+    })
+})
+
 /*
     LISTENER
 */
