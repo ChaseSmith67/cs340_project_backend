@@ -47,7 +47,12 @@
             <td>{{this.user_email}}</td>
             <td>{{this.user_phone}}</td>
             <td>
-                <button>Delete</button>
+                <fieldset class="modify">
+                <form id="delete-user-form" method="POST" action="/delete-user-form">
+                    <input type="hidden" name="user-id" value="{{this.user_id}}">
+                    <input type="submit" value="Delete">
+                </form>
+                </fieldset>
             </td>
         </tr>
         {{/each}}

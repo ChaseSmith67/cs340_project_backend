@@ -964,6 +964,38 @@ app.post("/delete-age-rating-form", function(req, res){
     })
 })
 
+// Delete a User
+app.post("/delete-user-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let user_id = data['user-id'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM Users WHERE user_id = '${user_id}'`;
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/users');
+        }
+    })
+})
 /*
     LISTENER
 */
