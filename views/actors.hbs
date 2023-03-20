@@ -79,24 +79,27 @@
 {{!-- Update actor --}}
 
 <h2>Update Actor</h2>
-<p>Please select from the drop down of the desired Actor you would like to update</p>
+<p>Please select from the drop down of the desired Actor you would like to alter</p>
 <form id="update-actor-form-ajax">
 
-    <label for="input-update-actor-id">Actor ID: </label>
-    <input type="text" name="input-update-actor-id" id="input-update-actor-id">
-
-    <label for="input-fullname">Full name: </label>
-    <select name="input-fullname" id="input-fullname">
+    <label for="input-update-actor-id">Actors: </label>
+    <select name="input-update-actor-id" id="input-update-actor-id">
         <option value="test">Select an Actor</option>
         {{#each data}}
         <option value="{{this.actor_id}}">{{this.first_name}} {{this.last_name}}</option>
         {{/each}}
     </select>
 
+    <label for="update-firstname" id="update-firstname">Change First Name: </label>
+    <input type="text" name="input-update-firstname" id="input-update-firstname" value="{{this.first_name}}" required>
 
-    <label for="input-birthdate-update">Birthdate: </label>
+    <label for="update-lastname" id="update-lastname">Change Last Name: </label>
+    <input type="text" name="input-update-lastname" id="input-update-lastname" value="{{this.last_name}}" required>
 
-    <input type="date" name="input-birthdate-update" id="input-birthdate-update"></input>
+
+    <label for="input-birthdate-update">Change Birthdate: </label>
+
+    <input type="date" name="input-birthdate-update" id="input-birthdate-update">
 
     <input type="submit">
 
