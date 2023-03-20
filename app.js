@@ -1044,22 +1044,10 @@ app.post("/delete-genre-form", function(req, res){
         }
 
         else {
-
-            // Create second Query
-            const query2 = `DELETE FROM MovieGenres WHERE genre_id = '${genre_id}'`;
-
-            db.pool.query(query2, function(error, rows, fields){
-
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    res.redirect('/genres');
+                res.redirect('/genres');
                 }
-            })
-        }
-    })
-})
+        })
+    });
 
 // Delete a Mood - Removes that Mood from all Movies as well
 app.post("/delete-mood-form", function(req, res){
@@ -1086,22 +1074,11 @@ app.post("/delete-mood-form", function(req, res){
         }
 
         else {
-
-            // Create second Query
-            const query2 = `DELETE FROM MovieMoods WHERE mood_id = '${mood_id}'`;
-
-            db.pool.query(query2, function(error, rows, fields){
-
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
                     res.redirect('/moods');
                 }
             })
         }
-    })
-})
+    );
 
 // Remove a Movie from a User's History
 app.post("/remove-movie-user-form", function(req, res){
