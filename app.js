@@ -8,7 +8,7 @@ const express = require('express');
 const db = require('./db-connector.js');
 const { engine } = require('express-handlebars');
 const app = express();            // We need to instantiate an express object to interact with the server in our code
-const PORT = 4367;                 // Set a port number at the top so it's easy to change in the future
+const PORT = 4466;                 // Set a port number at the top so it's easy to change in the future
 const path = require('path');
 
 
@@ -493,17 +493,20 @@ app.post('/movie-relationships', function(req, res) {
 //UPDATE ACTORS
 app.put('/update-actor-ajax', function(req,res,next){                                   
     let data = req.body;
-  
-    let birthdate = data.birthDate;
-    let actor = data.actorID;
+    console.log(data);
 
+    let first_name = data.first_name;
+    let last_name = data.last_name;
+    let birthdate = data.actor_birth_date;
+    let actor = data.actor_ID;
+    
 
-    let queryUpdateActor = 'UPDATE Actors SET actor_birth_date =? WHERE actor_id = ?';
+    let queryUpdateActor = 'UPDATE Actors SET first_name = ?, last_name = ?, actor_birth_date =? WHERE actor_id = ?';
     
     let selectActor = `SELECT * FROM Actors WHERE actor_id = ?`;
   
           // Run the 1st query
-          db.pool.query(queryUpdateActor, [birthdate, actor], function(error, rows, fields){
+          db.pool.query(queryUpdateActor, [first_name, last_name, birthdate, actor], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
