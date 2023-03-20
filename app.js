@@ -8,7 +8,7 @@ const express = require('express');
 const db = require('./db-connector.js');
 const { engine } = require('express-handlebars');
 const app = express();            // We need to instantiate an express object to interact with the server in our code
-const PORT = 4466;                 // Set a port number at the top so it's easy to change in the future
+const PORT = 4367;                 // Set a port number at the top so it's easy to change in the future
 const path = require('path');
 
 
@@ -659,9 +659,11 @@ app.put('/update-actor-ajax', function(req,res,next){
     let last_name = data.last_name;
     let birthdate = data.actor_birth_date;
     let actor = data.actor_ID;
+
+    console.log(birthdate)
     
 
-    let queryUpdateActor = 'UPDATE Actors SET first_name = ?, last_name = ?, actor_birth_date =? WHERE actor_id = ?';
+    let queryUpdateActor = 'UPDATE Actors SET first_name = ?, last_name = ?, actor_birth_date = ? WHERE actor_id = ?';
     
     let selectActor = `SELECT * FROM Actors WHERE actor_id = ?`;
   

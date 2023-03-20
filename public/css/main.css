@@ -97,3 +97,9 @@ body {
     padding: 5px;
     display:inline-block;
   }
+
+  .fields {
+    margin: 5px;
+    padding: 10px;
+    white-space: nowrap;
+  }
