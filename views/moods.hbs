@@ -43,8 +43,12 @@
             <td>{{this.mood_id}}</td>
             <td>{{this.mood_name}}</td>
             <td>
-                <button>Edit</button>
-                <button>Delete</button>
+                <fieldset class="modify">
+                <form id="delete-mood-form" method="POST" action="/delete-mood-form">
+                    <input type="hidden" name="mood-id" value="{{this.mood_id}}">
+                    <input type="submit" value="Delete">
+                </form>
+                </fieldset>
             </td>
         </tr>
         {{/each}}
