@@ -8,7 +8,7 @@ const express = require('express');
 const db = require('./db-connector.js');
 const { engine } = require('express-handlebars');
 const app = express();            // We need to instantiate an express object to interact with the server in our code
-const PORT = 4367;                 // Set a port number at the top so it's easy to change in the future
+const PORT = 4369;                 // Set a port number at the top so it's easy to change in the future
 const path = require('path');
 
 
@@ -750,17 +750,17 @@ app.put('/update-user-ajax', function(req,res,next){
 
 
 //UPDATE AGE_RATING
-app.put('/update-age-ajax', function(req,res,next){                                   
-    let data = req.body;
+ app.put('/update-age-ajax', function(req,res,next){                                   
+     let data = req.body;
 
     let updatedDescription = data.updatedDescription;
     let ageID = data.ageID;
 
     
-    let queryUpdateUser = 'UPDATE AgeRatings SET age_rating_description = ?';
+    let queryUpdateUser = 'UPDATE AgeRatings SET age_rating_description = ? WHERE age_rating_id = ?' ;
     let selectUser = `SELECT * FROM AgeRatings WHERE age_rating_id = ?`;
 
-    db.pool.query(queryUpdateUser, [updatedDescription, ageID], function (error, rows, fields) {
+     db.pool.query(queryUpdateUser, [updatedDescription, ageID], function (error, rows, fields) {
 
         if (error) {
             
@@ -778,37 +778,17 @@ app.put('/update-age-ajax', function(req,res,next){
             db.pool.query(selectUser, [ageID], function(error, rows, fields) {
           
                 if (error) {
+
                     console.log(error);
                     res.sendStatus(400);
+
                 } else {
+
                     res.send(rows);
                 }
-            })
-        }
-})});
-
-// Edit Movie
-app.post('/submit-movie-edit', function(req, res) {
-
-    // Get data from request
-    let data = req.body;
-    let movieID = data['movie'];
-    let movieTitle = data['edit-title'];
-    let movieYear = data['edit-year'];
-    let movieAgeRating = data['edit-age-rating'];
-
-    // Query DB to update Movie info
-    let updateMovieQuery = `UPDATE Movies SET movie_title = '${movieTitle}', movie_year = '${movieYear}',
-            age_rating_id = '${movieAgeRating}' WHERE Movies.movie_id = '${movieID}'`
-
-    db.pool.query(updateMovieQuery, function(error, data, fields) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.redirect('/movies');
-        }
-    })
-})
+             })
+         }
+ })});
 
 
 //=====DELETE=====
