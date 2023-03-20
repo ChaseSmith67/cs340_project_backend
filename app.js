@@ -1018,6 +1018,48 @@ app.post("/delete-user-form", function(req, res){
     })
 })
 
+// Delete a Genre - Removes that Genre from all Movies as well
+app.post("/delete-genre-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let genre_id = data['genre-id'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM Genres WHERE genre_id = '${genre_id}'`;
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+
+            // Create second Query
+            const query2 = `DELETE FROM MovieGenres WHERE genre_id = '${genre_id}'`;
+
+            db.pool.query(query2, function(error, rows, fields){
+
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.redirect('/genres');
+                }
+            })
+        }
+    })
+})
+
 // Remove a Movie from a User's History
 app.post("/remove-movie-user-form", function(req, res){
 
