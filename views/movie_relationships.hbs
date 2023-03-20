@@ -3,6 +3,19 @@
 {{!-- The Data from our Database --}}
 
 {{!-- Create a table --}}
+<nav>
+    <ul style="list-style-type: none">
+        <li><a href="/actors">Actors</a></li>
+        <li><a href="/moods">Moods</a></li>
+        <li><a href="/users">Users</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/age_ratings">AgeRating</a></li>
+        <li><a href="/movie_actors">MovieActors (Read Only)</a></li>
+        <li><a href="/movie_moods">MovieMoods (Read Only)</a></li>
+        <li><a href="/movie_genres">MovieGenres (Read Only)</a></li>
+        <li><a href="/user_movies">UserMovies (Read Only)</a></li>
+    </ul>
+</nav>
 <label for="actors-table">Actors associated with {{this.movie}}</label>
 <table id="actors-table">
 
@@ -34,35 +47,35 @@
 </table>
 
 <fieldset>
-<label for="movie-add-actor-form">Add an Actor to this Movie</label>
+    <label for="movie-add-actor-form">Add an Actor to this Movie</label>
 
-<form id="movie-add-actor-form" method="POST" action="/movie-add-actor-form">
-    <label for="input-actor">Actor: </label>
-    <input type="hidden" name="movie" value="{{this.movie}}">
-    <select name="input-actor" id="input-actor">
-        {{#each add_actor}}
-        <option value="{{this.actor_id}}">{{this.first_name}} {{this.last_name}}</option>
-        {{/each}}
-    </select>
+    <form id="movie-add-actor-form" method="POST" action="/movie-add-actor-form">
+        <label for="input-actor">Actor: </label>
+        <input type="hidden" name="movie" value="{{this.movie}}">
+        <select name="input-actor" id="input-actor">
+            {{#each add_actor}}
+            <option value="{{this.actor_id}}">{{this.first_name}} {{this.last_name}}</option>
+            {{/each}}
+        </select>
 
-    <input type="submit" value="Add Actor to Movie">
-</form>
+        <input type="submit" value="Add Actor to Movie">
+    </form>
 
-<br>
+    <br>
 
-<label for="movie-remove-actor-form">Remove an Actor from this Movie</label>
+    <label for="movie-remove-actor-form">Remove an Actor from this Movie</label>
 
-<form id="movie-remove-actor-form" method="POST" action="/movie-remove-actor-form">
-    <label for="input-actor">Actor: </label>
-    <input type="hidden" name="movie" value="{{this.movie}}">
-    <select name="remove-actor" id="remove-actor">
-        {{#each actor}}
-        <option>{{this.first_name}} {{this.last_name}}</option>
-        {{/each}}
-    </select>
+    <form id="movie-remove-actor-form" method="POST" action="/movie-remove-actor-form">
+        <label for="input-actor">Actor: </label>
+        <input type="hidden" name="movie" value="{{this.movie}}">
+        <select name="remove-actor" id="remove-actor">
+            {{#each actor}}
+            <option>{{this.first_name}} {{this.last_name}}</option>
+            {{/each}}
+        </select>
 
-    <input type="submit" value="Remove Actor from Movie">
-</form>
+        <input type="submit" value="Remove Actor from Movie">
+    </form>
 </fieldset>
 
 <br>
@@ -101,35 +114,35 @@
 </table>
 
 <fieldset>
-<label for="movie-add-genre-form">Add a Genre to this Movie</label>
+    <label for="movie-add-genre-form">Add a Genre to this Movie</label>
 
-<form id="movie-add-genre-form" method="POST" action="/movie-add-genre-form">
-    <label for="input-genre">Genre: </label>
-    <input type="hidden" name="movie" value="{{this.movie}}">
-    <select name="input-genre" id="input-genre">
-        {{#each add_genre}}
-        <option value="{{this.genre_id}}">{{this.genre_name}}</option>
-        {{/each}}
-    </select>
+    <form id="movie-add-genre-form" method="POST" action="/movie-add-genre-form">
+        <label for="input-genre">Genre: </label>
+        <input type="hidden" name="movie" value="{{this.movie}}">
+        <select name="input-genre" id="input-genre">
+            {{#each add_genre}}
+            <option value="{{this.genre_id}}">{{this.genre_name}}</option>
+            {{/each}}
+        </select>
 
-    <input type="submit" value="Add Genre to Movie">
-</form>
+        <input type="submit" value="Add Genre to Movie">
+    </form>
 
-<br>
+    <br>
 
-<label for="movie-remove-genre-form">Remove a Genre from this Movie</label>
+    <label for="movie-remove-genre-form">Remove a Genre from this Movie</label>
 
-<form id="movie-remove-genre-form" method="POST" action="/movie-remove-genre-form">
-    <label for="remove-genre">Genre: </label>
-    <input type="hidden" name="movie" value="{{this.movie}}">
-    <select name="remove-genre" id="remove-genre">
-        {{#each genre}}
-        <option>{{this.genre_name}}</option>
-        {{/each}}
-    </select>
+    <form id="movie-remove-genre-form" method="POST" action="/movie-remove-genre-form">
+        <label for="remove-genre">Genre: </label>
+        <input type="hidden" name="movie" value="{{this.movie}}">
+        <select name="remove-genre" id="remove-genre">
+            {{#each genre}}
+            <option>{{this.genre_name}}</option>
+            {{/each}}
+        </select>
 
-    <input type="submit" value="Remove Genre from Movie">
-</form>
+        <input type="submit" value="Remove Genre from Movie">
+    </form>
 </fieldset>
 
 <br>
@@ -168,31 +181,31 @@
 </table>
 
 <fieldset>
-<label for="movie-add-mood-form">Add a Mood to this Movie</label>
-<form id="movie-add-mood-form" method="POST" action="/movie-add-mood-form">
-    <label for="input-mood">Mood: </label>
-    <input type="hidden" name="movie" value="{{this.movie}}">
-    <select name="input-mood" id="input-mood">
-        {{#each add_mood}}
-        <option value="{{this.mood_id}}">{{this.mood_name}}</option>
-        {{/each}}
-    </select>
+    <label for="movie-add-mood-form">Add a Mood to this Movie</label>
+    <form id="movie-add-mood-form" method="POST" action="/movie-add-mood-form">
+        <label for="input-mood">Mood: </label>
+        <input type="hidden" name="movie" value="{{this.movie}}">
+        <select name="input-mood" id="input-mood">
+            {{#each add_mood}}
+            <option value="{{this.mood_id}}">{{this.mood_name}}</option>
+            {{/each}}
+        </select>
 
-    <input type="submit" value="Add Mood to Movie">
-</form>
+        <input type="submit" value="Add Mood to Movie">
+    </form>
 
-<br>
+    <br>
 
-<label for="movie-remove-mood-form">Remove a Mood from this Movie</label>
-<form id="movie-remove-mood-form" method="POST" action="/movie-remove-mood-form">
-    <label for="remove-mood">Mood: </label>
-    <input type="hidden" name="movie" value="{{this.movie}}">
-    <select name="remove-mood" id="remove-mood">
-        {{#each mood}}
-        <option>{{this.mood_name}}</option>
-        {{/each}}
-    </select>
+    <label for="movie-remove-mood-form">Remove a Mood from this Movie</label>
+    <form id="movie-remove-mood-form" method="POST" action="/movie-remove-mood-form">
+        <label for="remove-mood">Mood: </label>
+        <input type="hidden" name="movie" value="{{this.movie}}">
+        <select name="remove-mood" id="remove-mood">
+            {{#each mood}}
+            <option>{{this.mood_name}}</option>
+            {{/each}}
+        </select>
 
-    <input type="submit" value="Remove Mood from Movie">
-</form>
+        <input type="submit" value="Remove Mood from Movie">
+    </form>
 </fieldset>
