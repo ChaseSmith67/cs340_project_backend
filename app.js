@@ -39,14 +39,12 @@ app.post('/add-actor-form', function(req, res){
     // Assign data objects to variables to input into db.pool
     let first_name = data['input-fname'];
     let last_name = data['input-lname'];
-    let birthdate = new Date(data['input-birthdate']);
-    let birthday = birthdate.toISOString(birthdate).slice(0, 10);
+    let birthdate = data['input-birthdate'];
+    // let birthday = birthdate.toISOString(birthdate).slice(0, 10);
     
-
-    console.log(String(birthday));
     
     // Create the query and run it on the database
-    const query1 = `INSERT INTO Actors (first_name, last_name, actor_birth_date) VALUES ('${first_name}', '${last_name}', DATE(${birthday}))`;
+    const query1 = `INSERT INTO Actors (first_name, last_name, actor_birth_date) VALUES ('${first_name}', '${last_name}', '${birthdate}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -230,6 +228,144 @@ app.post('/add-movie-form', function(req, res){
         })
 })
 
+
+// Add an Actor to a Movie
+app.post("/movie-add-actor-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let actor_id = data['input-actor'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO MovieActors (movie_id, actor_id) VALUES
+    ((SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}'), '${actor_id}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll redirect to Movies
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Add a Genre to a Movie
+app.post("/movie-add-genre-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let genre_id = data['input-genre'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO MovieGenres (movie_id, genre_id) VALUES
+    ((SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}'), '${genre_id}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll redirect to Movies
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Add a Mood to a Movie
+app.post("/movie-add-mood-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let mood_id = data['input-mood'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO MovieMoods (movie_id, mood_id) VALUES
+    ((SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}'), '${mood_id}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll redirect to Movies
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Add a Mood to a Movie
+app.post("/add-movie-user-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let user_id = data['user'];
+    let movie_title = data['add-movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO UserMovies (movie_id, user_id) VALUES
+    ((SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}'), '${user_id}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll redirect to Users
+        else
+        {
+            res.redirect('/users');
+        }
+    })
+})
+
+
 //=====READ=====
 
 // Home Page
@@ -249,7 +385,7 @@ app.get('/movies', function(req, res) {
                 let query2 = "SELECT * FROM AgeRatings";
                 db.pool.query(query2, function(error, age_ratings, fields){
 
-                    res.render('movies', {data: rows, age_ratings: age_ratings});
+                    res.render('movies', {data: rows, age_ratings: age_ratings},);
 
                 })
             }
@@ -301,26 +437,6 @@ app.get('/moods', function(req, res) {
         })
     });
 
-// View Edit Movies Page
-app.get('/edit_movies', function(req, res) {
-    let query1 = "SELECT movie_id AS id, movie_title AS title FROM Movies";
-    db.pool.query(query1, function(error, movie, fields){
-
-        let query2 = "SELECT * FROM Moods";
-        db.pool.query(query2, function(error, mood, fields){
-
-            let query3 = "SELECT * FROM Genres";
-            db.pool.query(query3, function(error, genre, fields){
-
-                let query4 = "SELECT actor_id, CONCAT(first_name, ' ', last_name) AS fullName FROM Actors";
-                db.pool.query(query4, function(error, actor, fields){
-
-                    res.render('edit_movies', {movie: movie, mood: mood, genre: genre, actor: actor});
-                })
-            })
-        })
-    })
-});
 
 // View MovieActors Intersection Table
 app.get('/movie_actors', function(req, res) {
@@ -379,7 +495,21 @@ app.post('/movie-history', function(req, res) {
                 console.log(error);
                 res.sendStatus(400);
             } else {
-                res.render('movie_history', {data: rows, user: user_id});
+
+                let queryAddMovie = `SELECT movie_title FROM Movies WHERE movie_title NOT IN
+                                    (SELECT Movies.movie_title FROM Movies 
+                                    INNER JOIN UserMovies ON Movies.movie_id = UserMovies.movie_id 
+                                    INNER JOIN Users ON UserMovies.user_id = Users.user_id 
+                                    WHERE Users.user_id = '${user_id}')`;
+
+                db.pool.query(queryAddMovie, [user_id], function(error, add_movie, fields) {
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else{
+                        res.render('movie_history', {data: rows, user: user_id, add_movie: add_movie});
+                    }
+                })
             }
     })
 });
@@ -410,8 +540,8 @@ app.post('/movie-relationships', function(req, res) {
                 // Query to find all actors not in movie
                 let queryMovieAddActors = `SELECT * FROM Actors 
                                         WHERE NOT  Actors.actor_id IN (SELECT Actors.actor_id FROM Actors
-                                        RIGHT JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
-                                        RIGHT JOIN Movies ON MovieActors.movie_id = Movies.movie_id
+                                        JOIN MovieActors ON Actors.actor_id = MovieActors.actor_id
+                                        JOIN Movies ON MovieActors.movie_id = Movies.movie_id
                                         WHERE Movies.movie_title = ?)`;
 
                 db.pool.query(queryMovieAddActors, [movie_title], function(error, add_actor, fields){
@@ -435,8 +565,8 @@ app.post('/movie-relationships', function(req, res) {
                                     // Query to find all Genres not associated with movie
                                     let queryMovieAddGenres = `SELECT * FROM Genres 
                                                             WHERE NOT  Genres.genre_id IN (SELECT Genres.genre_id FROM Genres
-                                                            RIGHT JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
-                                                            RIGHT JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
+                                                            JOIN MovieGenres ON Genres.genre_id = MovieGenres.genre_id
+                                                            JOIN Movies ON MovieGenres.movie_id = Movies.movie_id
                                                             WHERE Movies.movie_title = ?)`;
 
                                     db.pool.query(queryMovieAddGenres, [movie_title], function(error, add_genre, fields){
@@ -460,8 +590,8 @@ app.post('/movie-relationships', function(req, res) {
                                                  // Query to find all Moods not associated with movie
                                                 let queryMovieAddMoods = `SELECT * FROM Moods 
                                                 WHERE NOT  Moods.mood_id IN (SELECT Moods.mood_id FROM Moods
-                                                RIGHT JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
-                                                RIGHT JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
+                                                JOIN MovieMoods ON Moods.mood_id = MovieMoods.mood_id
+                                                JOIN Movies ON MovieMoods.movie_id = Movies.movie_id
                                                 WHERE Movies.movie_title = ?)`;
 
                                                 db.pool.query(queryMovieAddMoods, [movie_title], function(error, add_mood, fields){
@@ -486,6 +616,36 @@ app.post('/movie-relationships', function(req, res) {
         })
     }
 })
+});
+
+// GET MOVIE DETAILS FOR EDIT MOVIE PAGE
+app.post('/edit-movie-form', function(req, res) {
+    let data = req.body;
+
+    console.log(data);
+
+    let movie_id = data['movie'];
+    let editMoviePageQuery = `SELECT * FROM Movies WHERE movie_id = '${movie_id}'`;
+
+    // Get existing movie data to populate input boxes
+    db.pool.query(editMoviePageQuery, [movie_id], function(error, data, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+
+            let ageRatingQuery = `SELECT * FROM AgeRatings`;
+
+            // Get Age Ratings for user to select
+            db.pool.query(ageRatingQuery, [movie_id], function(error, age_rating, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+
+                    res.render('edit_movie', {data: data, age_rating: age_rating});
+                }
+            })
+        }
+    })
 });
 
 //=====UPDATE=====
@@ -608,6 +768,31 @@ app.put('/update-age-ajax', function(req,res,next){
             })
         }
 })});
+
+// Edit Movie
+app.post('/submit-movie-edit', function(req, res) {
+
+    // Get data from request
+    let data = req.body;
+    let movieID = data['movie'];
+    let movieTitle = data['edit-title'];
+    let movieYear = data['edit-year'];
+    let movieAgeRating = data['edit-age-rating'];
+
+    // Query DB to update Movie info
+    let updateMovieQuery = `UPDATE Movies SET movie_title = '${movieTitle}', movie_year = '${movieYear}',
+            age_rating_id = '${movieAgeRating}' WHERE Movies.movie_id = '${movieID}'`
+
+    db.pool.query(updateMovieQuery, function(error, data, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            res.redirect('/movies');
+        }
+    })
+})
+
+
 //=====DELETE=====
 
 app.delete('/delete-actor-ajax/', function(req,res,next){
@@ -641,6 +826,179 @@ app.delete('/delete-actor-ajax/', function(req,res,next){
   })
 });
 
+// Remove an Actor from a Movie
+app.post("/movie-remove-actor-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let full_name = data['remove-actor'];
+    let name = full_name.split(" ");
+    let first_name = name[0];
+    let last_name = name[1];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM MovieActors WHERE movie_id = (SELECT movie_id FROM Movies 
+        WHERE Movies.movie_title = '${movie_title}') AND actor_id = (SELECT actor_id 
+        FROM Actors WHERE first_name = '${first_name}' AND last_name = '${last_name}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Remove a Genre from a Movie
+app.post("/movie-remove-genre-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let genre = data['remove-genre'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM MovieGenres WHERE movie_id = (SELECT movie_id FROM Movies 
+        WHERE Movies.movie_title = '${movie_title}') AND genre_id = (SELECT genre_id 
+        FROM Genres WHERE genre_name = '${genre}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Remove a Mood from a Movie
+app.post("/movie-remove-mood-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let mood = data['remove-mood'];
+    let movie_title = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM MovieMoods WHERE movie_id = (SELECT movie_id FROM Movies 
+        WHERE Movies.movie_title = '${movie_title}') AND mood_id = (SELECT mood_id 
+        FROM Moods WHERE mood_name = '${mood}');`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/movies');
+        }
+    })
+})
+
+// Delete an Age Rating - Leaves NULL in place for Movies with that Age Rating
+app.post("/delete-age-rating-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let age_rating_id = data['age-rating-id'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM AgeRatings WHERE age_rating_id = '${age_rating_id}'`;
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/age_ratings');
+        }
+    })
+})
+
+// Delete a User
+app.post("/delete-user-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let user_id = data['user-id'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM Users WHERE user_id = '${user_id}'`;
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/users');
+        }
+    })
+})
 /*
     LISTENER
 */

@@ -28,7 +28,7 @@ CREATE TABLE `Actors` (
   `actor_id` int(11) NOT NULL,
   `first_name` varchar(145) NOT NULL,
   `last_name` varchar(145) NOT NULL,
-  `actor_birth_date` date DEFAULT NULL
+  `actor_birth_date` DATE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
