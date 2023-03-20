@@ -50,9 +50,9 @@
                     <input type="hidden" name="movie" value="{{this.movie_id}}">
                     <input type="submit" value="Edit">
                 </form>
-                <form>
+                <form id="delete-movie-form" method="POST" action="/delete-movie-form">
                     <input type="hidden" name = "movie" value="{{this.movie_id}}">
-                    <input type="button" value="Delete">
+                    <input type="submit" value="Delete">
                 </form>
                 </fieldset>
             </td>
