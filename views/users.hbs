@@ -1,4 +1,4 @@
-<h1>This is the Users page</h1>
+<h1>Users page</h1>
 <p>All registered Users of the site are listed below.</p>
 
 {{!-- The Data from our Database --}}
@@ -48,10 +48,10 @@
             <td>{{this.user_phone}}</td>
             <td>
                 <fieldset class="modify">
-                <form id="delete-user-form" method="POST" action="/delete-user-form">
-                    <input type="hidden" name="user-id" value="{{this.user_id}}">
-                    <input type="submit" value="Delete">
-                </form>
+                    <form id="delete-user-form" method="POST" action="/delete-user-form">
+                        <input type="hidden" name="user-id" value="{{this.user_id}}">
+                        <input type="submit" value="Delete">
+                    </form>
                 </fieldset>
             </td>
         </tr>
@@ -110,10 +110,10 @@
             {{/each}}
         </select>
 
-        <label for="input-update-email">Email: </label>
+        <label for="input-update-email">Update Email: </label>
         <input type="text" name="input-update-email" id="input-update-email">
 
-        <label for="input-update-Phone">Phone Number: </label>
+        <label for="input-update-Phone">Update Phone Number: </label>
         <input type="text" name="input-update-Phone" id="input-update-Phone">
 
         <input type="submit">
