@@ -46,6 +46,7 @@
             <td>{{this.age_rating_id}}</td>
             <td>
                 <fieldset class="modify">
+<<<<<<< HEAD
                     <form id="edit-movie-form" method="POST" action="/edit-movie-form">
                         <input type="hidden" name="movie" value="{{this.movie_id}}">
                         <input type="submit" value="Edit">
@@ -54,6 +55,16 @@
                         <input type="hidden" name="movie" value="{{this.movie_id}}">
                         <input type="button" value="Delete">
                     </form>
+=======
+                <form id="edit-movie-form" method="POST" action="/edit-movie-form">
+                    <input type="hidden" name="movie" value="{{this.movie_id}}">
+                    <input type="submit" value="Edit">
+                </form>
+                <form id="delete-movie-form" method="POST" action="/delete-movie-form">
+                    <input type="hidden" name = "movie" value="{{this.movie_id}}">
+                    <input type="submit" value="Delete">
+                </form>
+>>>>>>> d6c4ae17b014f73e1408cbd8fa03a9abbf324e69
                 </fieldset>
             </td>
         </tr>
