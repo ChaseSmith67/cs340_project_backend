@@ -813,6 +813,7 @@ app.post('/submit-movie-edit', function(req, res) {
 
 //=====DELETE=====
 
+// Delete an Actor
 app.delete('/delete-actor-ajax/', function(req,res,next){
     let data = req.body;
     let actor_id = parseInt(data.id);
@@ -1136,6 +1137,37 @@ app.post("/remove-movie-user-form", function(req, res){
         }
     })
 })
+
+// Delete a Movie
+app.post("/delete-movie-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let movie_id = data['movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM Movies WHERE movie_id = '${movie_id}';`
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+                    res.redirect('/movies');
+                }
+        })
+});
+
 /*
     LISTENER
 */
