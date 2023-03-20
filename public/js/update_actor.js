@@ -9,28 +9,27 @@ updatePersonForm.addEventListener("submit", function(e) {
 
     //getting forms
     
-    let inputFullName = document.getElementById("input-fullname");
+    let inputFirstName = document.getElementById("input-update-firstname");
+    let inputLastName = document.getElementById("input-update-lastname");
     let inputBirthDate = document.getElementById("input-birthdate-update");
-    let inputActorID = document.getElementById("input-update-actor-id");
+    let inputActor_ID = document.getElementById("input-update-actor-id");
 
     //getting values from the fields
-    let actorID = inputActorID.value;
-    let fullNameValue = inputFullName.value;
+    let actorID_Value = inputActor_ID.value;
+    let firstNameValue = inputFirstName.value;
+    let lastNameValue = inputLastName.value;
     let birthDateValue = inputBirthDate.value;
     
 
-    /*if (isNaN(Date.parse(birthDateValue))) {
-        console.log("Invalid date format");
-        return;
-    }*/
 
     let data = {
-
-        fullName: fullNameValue,
-        birthDate: birthDateValue,
-        actorID: actorID
-
+        first_name: firstNameValue,
+        last_name: lastNameValue,
+        actor_birth_date: birthDateValue,
+        actor_ID: actorID_Value
+        
     };
+    console.log(firstNameValue);
     
     //let actorId = inputFullName.options[inputFullName.selectedIndex].value;
 
@@ -40,15 +39,12 @@ updatePersonForm.addEventListener("submit", function(e) {
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     xhttp.onreadystatechange = () => {
-
+        
         //add the new data
         if(xhttp.readyState == 4 && xhttp.status == 200){
-
-            updateRow(xhttp.response, actorID);
-            inputActorID.value = '';
-            inputFullName.value = '';
-            inputBirthDate.value = '';
-
+            
+            updateRow(xhttp.response, actorID_Value);
+    
         }else if(xhttp.readyState == 4 && xhttp.status != 200){
 
             console.log("There was an error with the input.")
@@ -61,8 +57,9 @@ updatePersonForm.addEventListener("submit", function(e) {
 });
 
 function updateRow(data, actorID) {
-    console.log(data);
+    
     let parsedData = JSON.parse(data);
+    console.log(parsedData);
     let table = document.getElementById("people-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -71,14 +68,20 @@ function updateRow(data, actorID) {
         if (table.rows[i].getAttribute("data-value") == actorID) {
  
              // Get the location of the row where we found the matching person ID
-             let updateRowIndex = table.getElementsByTagName("tr")[i];
+            let updateRowIndex = table.getElementsByTagName("tr")[i];
  
              // Get td of homeworld value
-             let tdbirthday = updateRowIndex.getElementsByTagName("td")[4];
             
-             tdbirthday.innerHTML = parsedData[0].birthday;
+            let tdfirstname = updateRowIndex.getElementsByTagName("td")[1];
+            console.log(tdfirstname);
+            let tdlastname = updateRowIndex.getElementsByTagName("td")[2];
+            let tdbirthday = updateRowIndex.getElementsByTagName("td")[3];
+
+           
+            tdbirthday.innerHTML = parsedData[0].birthday;
+            tdfirstname.innerHTML = parsedData[0].first_name;
+            tdlastname.innerHTML = parsedData[0].last_name;
         }
      }
  };
  
-
