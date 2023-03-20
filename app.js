@@ -8,7 +8,7 @@ const express = require('express');
 const db = require('./db-connector.js');
 const { engine } = require('express-handlebars');
 const app = express();            // We need to instantiate an express object to interact with the server in our code
-const PORT = 4466;                 // Set a port number at the top so it's easy to change in the future
+const PORT = 4367;                 // Set a port number at the top so it's easy to change in the future
 const path = require('path');
 
 
@@ -331,7 +331,7 @@ app.post("/movie-add-mood-form", function(req, res){
     })
 })
 
-// Add a Mood to a Movie
+// Add a Movie to a User's History
 app.post("/add-movie-user-form", function(req, res){
 
     // Capture incoming data and parse it into JS Object
@@ -507,10 +507,26 @@ app.post('/movie-history', function(req, res) {
                         console.log(error);
                         res.sendStatus(400);
                     } else{
-                        res.render('movie_history', {data: rows, user: user_id, add_movie: add_movie});
+
+                        let queryRemoveMovie = `SELECT movie_title FROM Movies WHERE movie_title IN
+                                    (SELECT Movies.movie_title FROM Movies 
+                                    INNER JOIN UserMovies ON Movies.movie_id = UserMovies.movie_id 
+                                    INNER JOIN Users ON UserMovies.user_id = Users.user_id 
+                                    WHERE Users.user_id = '${user_id}')`;
+
+                        db.pool.query(queryRemoveMovie, [user_id], function(error, remove_movie, fields) {
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else{
+
+                        res.render('movie_history', {data: rows, user: user_id, add_movie: add_movie, remove_movie: remove_movie});
                     }
                 })
             }
+                
+            })
+        }
     })
 });
 
@@ -659,9 +675,11 @@ app.put('/update-actor-ajax', function(req,res,next){
     let last_name = data.last_name;
     let birthdate = data.actor_birth_date;
     let actor = data.actor_ID;
+
+    console.log(birthdate)
     
 
-    let queryUpdateActor = 'UPDATE Actors SET first_name = ?, last_name = ?, actor_birth_date =? WHERE actor_id = ?';
+    let queryUpdateActor = 'UPDATE Actors SET first_name = ?, last_name = ?, actor_birth_date = ? WHERE actor_id = ?';
     
     let selectActor = `SELECT * FROM Actors WHERE actor_id = ?`;
   
@@ -993,6 +1011,41 @@ app.post("/delete-user-form", function(req, res){
 
         // Trying to find an efficient way to force page to reload...
         // Until then, we'll just redirect back to movies. 
+        else
+        {
+            res.redirect('/users');
+        }
+    })
+})
+
+// Remove a Movie from a User's History
+app.post("/remove-movie-user-form", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let user_id = data['user'];
+    let movie_title = data['remove-movie'];
+    
+    // Create the query and run it on the database
+    const query1 = `DELETE FROM UserMovies WHERE movie_id =
+            (SELECT movie_id FROM Movies WHERE Movies.movie_title = '${movie_title}')
+            AND user_id = '${user_id}';`
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // Trying to find an efficient way to force page to reload...
+        // Until then, we'll redirect to Users
         else
         {
             res.redirect('/users');

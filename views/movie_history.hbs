@@ -17,7 +17,6 @@
                 {{@key}}
             </th>
             {{/each}}
-            <th>Modify</th>
         </tr>
     </thead>
 
@@ -28,9 +27,6 @@
         {{#each data}}
         <tr>
             <td>{{this.movie_title}}</td>
-            <td>
-                <button>Delete</button>
-            </td>
         </tr>
         {{/each}}
     </tbody>
@@ -50,6 +46,24 @@
         <input type="submit">
     </form>
 </fieldset>
+
+<br>
+
+<fieldset>
+<label for="remove-movie-user-form">Remove a Movie from User's History</label>
+    <form id="remove-movie-user-form" method="POST" action="/remove-movie-user-form">
+        
+        <label for="remove-movie">Movie Title: </label>
+        <select name="remove-movie" id="remove-movie">
+            {{#each remove_movie}}
+            <option value="{{this.movie_title}}">{{this.movie_title}}</option>
+            {{/each}}
+        </select>
+        <input type="hidden" name="user" value="{{this.user}}">
+        <input type="submit">
+    </form>
+</fieldset>
+
 <br>
 
 <a href="/users">Return to Users Page</a>

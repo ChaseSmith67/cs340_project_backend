@@ -56,6 +56,7 @@ updateUserForm.addEventListener("submit", function (e) {
 
 function updateRow(data, userID){
     let parsedData = JSON.parse(data);
+    console.log(parsedData);
     
     let table = document.getElementById("user-table");
 
@@ -64,10 +65,10 @@ function updateRow(data, userID){
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == userID) {
 
-            // Get the location of the row where we found the matching person ID
+            // Get the location of the row where we found the matching user ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of homeworld value
+            // Get td of User value
             let tdEmail = updateRowIndex.getElementsByTagName("td")[1];
             let tdPhone = updateRowIndex.getElementsByTagName("td")[2];
             
