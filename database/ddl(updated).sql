@@ -56,10 +56,10 @@ CREATE TABLE `AgeRatings` (
 --
 
 INSERT INTO `AgeRatings` (`age_rating_id`, `age_rating_description`) VALUES
-(4, 'Adults'),
 (1, 'All Ages'),
 (2, 'Older Children'),
-(3, 'Teens');
+(3, 'Teens'),
+(4, 'Adults');
 
 -- --------------------------------------------------------
 
@@ -329,6 +329,11 @@ ALTER TABLE `Users`
 --
 ALTER TABLE `Actors`
   MODIFY `actor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  
+-- AUTO_INCREMENT for table `AgeRatings`
+--
+ALTER TABLE `AgeRatings`
+  MODIFY `age_rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Genres`

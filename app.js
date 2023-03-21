@@ -790,6 +790,39 @@ app.put('/update-user-ajax', function(req,res,next){
          }
  })});
 
+// Update a Movie
+app.post("/submit-movie-edit", function(req, res){
+
+    // Capture incoming data and parse it into JS Object
+    let data = req.body;
+
+    console.log(data);
+
+    // Assign data objects to variables to input into db.pool
+    let movie_id = data['movie'];
+    let movie_title = data['edit-title'];
+    let movie_year = data['edit-year'];
+    let movie_age_rating = data['edit-age-rating']
+    
+    // Create the query and run it on the database
+    const query1 = `UPDATE Movies SET movie_title = '${movie_title}', movie_year = '${movie_year}',
+                    age_rating_id = '${movie_age_rating}' WHERE movie_id = '${movie_id}';`
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+                    res.redirect('/movies');
+                }
+        })
+});
 
 //=====DELETE=====
 
